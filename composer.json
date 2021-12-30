@@ -34,10 +34,7 @@
     "true/punycode": "2.1.1"
 
   },
-  "config": {
-    "optimize-autoloader": true,
-    "platform-check": false
-  },
+  
   "autoload": {
     "psr-4": {
       "Modufolio\\": "src/"
