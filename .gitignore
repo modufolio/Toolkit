@@ -11,4 +11,21 @@
 
 
 # ignore all the vendor cruft
-/vendor
+/vendor/**/.*
+/vendor/**/test/*
+/vendor/**/tests/*
+/vendor/*/*/*.md
+!/vendor/*/*/COPYRIGHT.md
+!/vendor/*/*/LICENSE.md
+/vendor/*/*/*.dist
+/vendor/*/*/*.txt
+/vendor/*/*/*.xml
+/vendor/*/*/*.yml
+/vendor/*/*/*.yaml
+/vendor/*/*/COMMITMENT
+/vendor/*/*/readme.php
+/vendor/*/*/VERSION
+/vendor/*/*/docs/*
+/vendor/*/*/example/*
+/vendor/*/*/examples/*
+/vendor/*/*/php4/*
