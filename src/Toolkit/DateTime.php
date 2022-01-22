@@ -62,8 +62,8 @@ class DateTime extends \DateTime implements \JsonSerializable
         int $day,
         int $hour = 0,
         int $minute = 0,
-        float $second = 0.0,
-	): DateTime {
+        float $second = 0.0
+    ): DateTime {
         $s = sprintf('%04d-%02d-%02d %02d:%02d:%02.5F', $year, $month, $day, $hour, $minute, $second);
         if (
             !checkdate($month, $day, $year)
@@ -86,10 +86,10 @@ class DateTime extends \DateTime implements \JsonSerializable
      * @throws \Exception
      */
     public static function createFromFormat(
-        string $format,
-        string $time,
-        $timezone = null
-	) {
+        $format,
+        $time,
+        ?\DateTimeZone $timezone = null
+    ) {
         if ($timezone === null) {
             $timezone = new \DateTimeZone(date_default_timezone_get());
 
