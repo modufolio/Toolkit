@@ -168,7 +168,7 @@ class A
      *                  A::MERGE_REPLACE:   non-associative arrays are completely replaced
      * @return array
      */
-    public static function merge($array1, $array2, int $mode = A::MERGE_APPEND)
+    public static function merge($array1, $array2, int $mode = A::MERGE_APPEND): array
     {
         $merged = $array1;
 
@@ -762,7 +762,7 @@ class A
      * @param  array  $array
      * @return bool
      */
-    public static function isAssoc(array $array)
+    public static function isAssoc(array $array): bool
     {
         $keys = array_keys($array);
 
@@ -777,7 +777,7 @@ class A
      * @param  array  $array
      * @return bool
      */
-    public static function isList($array)
+    public static function isList($array): bool
     {
         return ! self::isAssoc($array);
     }
@@ -789,7 +789,7 @@ class A
      * @param  array|string  $keys
      * @return array
      */
-    public static function only($array, $keys)
+    public static function only($array, $keys): array
     {
         return array_intersect_key($array, array_flip((array) $keys));
     }
@@ -807,6 +807,26 @@ class A
         }
 
         return null;
+    }
+
+    /**
+     * Function that groups an array of associative arrays by some key.
+     * these will contain the original values.
+     *
+     * @param string $key The key to group by
+     * @param array $array The array to group
+     * @return array
+     */
+    public static function groupBy(string $key, array $array): array
+    {
+        $output = [];
+        foreach ($array as $a)
+        {
+            if(array_key_exists($key, $a)){
+                $output[$a[$key]][] = $a;
+            }
+        }
+        return $output;
     }
 
 }
