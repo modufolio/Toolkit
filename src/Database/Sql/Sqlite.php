@@ -25,7 +25,7 @@ class Sqlite extends Sql
     public function columns(string $table): array
     {
         return [
-            'query' => 'PRAGMA table_info(' . $this->tableName($table) . ')',
+            'query'    => 'PRAGMA table_info(' . $this->tableName($table) . ')',
             'bindings' => [],
         ];
     }
@@ -40,10 +40,10 @@ class Sqlite extends Sql
     public function columnTypes(): array
     {
         return [
-            'id' => '{{ name }} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE',
-            'varchar' => '{{ name }} TEXT {{ null }} {{ default }} {{ unique }}',
-            'text' => '{{ name }} TEXT {{ null }} {{ default }} {{ unique }}',
-            'int' => '{{ name }} INTEGER {{ null }} {{ default }} {{ unique }}',
+            'id'        => '{{ name }} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE',
+            'varchar'   => '{{ name }} TEXT {{ null }} {{ default }} {{ unique }}',
+            'text'      => '{{ name }} TEXT {{ null }} {{ default }} {{ unique }}',
+            'int'       => '{{ name }} INTEGER {{ null }} {{ default }} {{ unique }}',
             'timestamp' => '{{ name }} INTEGER {{ null }} {{ default }} {{ unique }}'
         ];
     }
@@ -53,7 +53,7 @@ class Sqlite extends Sql
      *
      * @param $table string
      * @param $column string
-     * @param $values boolean Whether the identifier is going to be used for a VALUES clause;
+     * @param $values bool Whether the identifier is going to be used for a VALUES clause;
      *                        only relevant for SQLite
      * @return string
      */
@@ -82,9 +82,10 @@ class Sqlite extends Sql
         $keys = [];
         foreach ($inner['keys'] as $key => $columns) {
             // quote each column name and make a list string out of the column names
-            $columns = implode(', ', array_map(function ($name) {
-                return $this->quoteIdentifier($name);
-            }, $columns));
+            $columns = implode(', ', array_map(
+                fn ($name) => $this->quoteIdentifier($name),
+                $columns
+            ));
 
             if ($key === 'primary') {
                 $inner['query'] .= ',' . PHP_EOL . 'PRIMARY KEY (' . $columns . ')';
@@ -102,7 +103,7 @@ class Sqlite extends Sql
         }
 
         return [
-            'query' => $query,
+            'query'    => $query,
             'bindings' => $inner['bindings']
         ];
     }
@@ -136,7 +137,7 @@ class Sqlite extends Sql
     public function tables(): array
     {
         return [
-            'query' => 'SELECT name FROM sqlite_master WHERE type = "table"',
+            'query'    => 'SELECT name FROM sqlite_master WHERE type = "table" OR type = "view"',
             'bindings' => []
         ];
     }
