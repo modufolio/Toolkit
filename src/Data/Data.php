@@ -42,18 +42,18 @@ class Data
      * @var array
      */
     public static $handlers = [
-        'json' => 'Kirby\Data\Json',
-        'php' => 'Kirby\Data\PHP',
-        'txt' => 'Kirby\Data\Txt',
-        'xml' => 'Kirby\Data\Xml',
-        'yaml' => 'Kirby\Data\Yaml',
+        'json' => 'Modufolio\Data\Json',
+        'php' => 'Modufolio\Data\PHP',
+        'txt' => 'Modufolio\Data\Txt',
+        'xml' => 'Modufolio\Data\Xml',
+        'yaml' => 'Modufolio\Data\Yaml',
     ];
 
     /**
      * Handler getter
      *
      * @param string $type
-     * @return \Kirby\Data\Handler
+     * @return \Modufolio\Data\Handler
      */
     public static function handler(string $type)
     {

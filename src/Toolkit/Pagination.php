@@ -64,7 +64,7 @@ class Pagination
      * Creates a pagination instance for the given
      * collection with a flexible argument api
      *
-     * @param \Kirby\Toolkit\Collection $collection
+     * @param \Modufolio\Toolkit\Collection $collection
      * @param mixed ...$arguments
      * @return static
      */

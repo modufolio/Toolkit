@@ -16,15 +16,15 @@ class Date
 
     public static function parse(string $date, $format = null, $lang = null)
     {
-        if(isset($format)) {
+        if (isset($format)) {
             return self::convert($date, $format, 'Y-m-d');
         }
 
-        if(strstr($date, '/') !== false) {
+        if (strstr($date, '/') !== false) {
             return self::convert($date, 'd/m/Y', 'Y-m-d');
         }
 
-        if(isset($lang) && $lang != 'en') {
+        if (isset($lang) && $lang != 'en') {
             self::translate($date, $lang);  // translate date to english
             return self::format($date);
         }
@@ -35,7 +35,7 @@ class Date
 
     public static function translate(string $date, string $lang): string
     {
-        if(!in_array($lang, array_keys(self::$translation))) {
+        if (!in_array($lang, array_keys(self::$translation))) {
             return false;
         }
 

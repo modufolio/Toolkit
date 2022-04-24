@@ -145,7 +145,7 @@ class Request
     /**
      * Returns the Auth object if authentication is set
      *
-     * @return \Kirby\Http\Request\Auth\BasicAuth|\Kirby\Http\Request\Auth\BearerAuth|null
+     * @return \Modufolio\Http\Request\Auth\BasicAuth|\Modufolio\Http\Request\Auth\BearerAuth|null
      */
     public function auth()
     {
@@ -171,7 +171,7 @@ class Request
     /**
      * Returns the Body object
      *
-     * @return \Kirby\Http\Request\Body
+     * @return \Modufolio\Http\Request\Body
      */
     public function body()
     {
@@ -266,7 +266,7 @@ class Request
     /**
      * Returns the Files object
      *
-     * @return \Kirby\Cms\Files
+     * @return \Modufolio\Cms\Files
      */
     public function files()
     {
@@ -376,7 +376,7 @@ class Request
     /**
      * Returns the Query object
      *
-     * @return \Kirby\Http\Request\Query
+     * @return \Modufolio\Http\Request\Query
      */
     public function query()
     {
@@ -400,7 +400,7 @@ class Request
      * the original object.
      *
      * @param array $props
-     * @return \Kirby\Http\Uri
+     * @return \Modufolio\Http\Uri
      */
     public function url(array $props = null)
     {

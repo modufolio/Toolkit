@@ -332,9 +332,9 @@ class File
      *                              `false` for normal autodetection
      * @return void
      *
-     * @throws \Kirby\Exception\InvalidArgumentException If the file didn't pass validation
-     * @throws \Kirby\Exception\NotFoundException If the handler was not found
-     * @throws \Kirby\Exception\Exception On other errors
+     * @throws \Modufolio\Exception\InvalidArgumentException If the file didn't pass validation
+     * @throws \Modufolio\Exception\NotFoundException If the handler was not found
+     * @throws \Modufolio\Exception\Exception On other errors
      */
     public function validateContents($typeLazy = false): void
     {

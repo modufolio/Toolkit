@@ -83,7 +83,7 @@ class Exif
     /**
      * Constructor
      *
-     * @param \Kirby\Image\Image $image
+     * @param \Modufolio\Image\Image $image
      */
     public function __construct(Image $image)
     {
@@ -105,7 +105,7 @@ class Exif
     /**
      * Returns the Camera object
      *
-     * @return \Kirby\Image\Camera|null
+     * @return \Modufolio\Image\Camera|null
      */
     public function camera()
     {
@@ -119,7 +119,7 @@ class Exif
     /**
      * Returns the location object
      *
-     * @return \Kirby\Image\Location|null
+     * @return \Modufolio\Image\Location|null
      */
     public function location()
     {

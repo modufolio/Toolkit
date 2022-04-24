@@ -67,7 +67,7 @@ class Visitor
      * accepted language otherwise
      *
      * @param string|null $acceptedLanguage
-     * @return \Kirby\Toolkit\Obj|\Kirby\Http\Visitor|null
+     * @return \Modufolio\Toolkit\Obj|\Modufolio\Http\Visitor|null
      */
     public function acceptedLanguage(string $acceptedLanguage = null)
     {
@@ -83,7 +83,7 @@ class Visitor
      * Returns an array of all accepted languages
      * including their quality and locale
      *
-     * @return \Kirby\Toolkit\Collection
+     * @return \Modufolio\Toolkit\Collection
      */
     public function acceptedLanguages()
     {
@@ -134,7 +134,7 @@ class Visitor
      * accepted mime type otherwise
      *
      * @param string|null $acceptedMimeType
-     * @return \Kirby\Toolkit\Obj|\Kirby\Http\Visitor
+     * @return \Modufolio\Toolkit\Obj|\Modufolio\Http\Visitor
      */
     public function acceptedMimeType(string $acceptedMimeType = null)
     {
@@ -149,7 +149,7 @@ class Visitor
     /**
      * Returns a collection of all accepted mime types
      *
-     * @return \Kirby\Toolkit\Collection
+     * @return \Modufolio\Toolkit\Collection
      */
     public function acceptedMimeTypes()
     {

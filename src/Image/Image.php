@@ -30,12 +30,12 @@ class Image extends File
     protected $url;
 
     /**
-     * @var \Kirby\Image\Exif|null
+     * @var \Modufolio\Image\Exif|null
      */
     protected $exif;
 
     /**
-     * @var \Kirby\Image\Dimensions|null
+     * @var \Modufolio\Image\Dimensions|null
      */
     protected $dimensions;
 
@@ -78,7 +78,7 @@ class Image extends File
     /**
      * Returns the dimensions of the file if possible
      *
-     * @return \Kirby\Image\Dimensions
+     * @return \Modufolio\Image\Dimensions
      */
     public function dimensions()
     {
@@ -112,7 +112,7 @@ class Image extends File
     /**
      * Returns the exif object for this file (if image)
      *
-     * @return \Kirby\Image\Exif
+     * @return \Modufolio\Image\Exif
      */
     public function exif()
     {
@@ -127,7 +127,7 @@ class Image extends File
      * Sends an appropriate header for the asset
      *
      * @param bool $send
-     * @return \Kirby\Http\Response|string
+     * @return \Modufolio\Http\Response|string
      */
     public function header(bool $send = true)
     {

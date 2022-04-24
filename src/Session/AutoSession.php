@@ -21,7 +21,7 @@ class AutoSession
     /**
      * Creates a new AutoSession instance
      *
-     * @param \Kirby\Session\SessionStore|string $store SessionStore object or a path to the storage directory (uses the FileSessionStore)
+     * @param \Modufolio\Session\SessionStore|string $store SessionStore object or a path to the storage directory (uses the FileSessionStore)
      * @param array $options Optional additional options:
      *                       - `durationNormal`: Duration of normal sessions in seconds; defaults to 2 hours
      *                       - `durationLong`: Duration of "remember me" sessions in seconds; defaults to 2 weeks
@@ -54,7 +54,7 @@ class AutoSession
      *                       - `detect`: Whether to allow sessions in the `Authorization` HTTP header (`true`) or only in the session cookie (`false`); defaults to `false`
      *                       - `createMode`: When creating a new session, should it be set as a cookie or is it going to be transmitted manually to be used in a header?; defaults to `cookie`
      *                       - `long`: Whether the session is a long "remember me" session or a normal session; defaults to `false`
-     * @return \Kirby\Session\Session
+     * @return \Modufolio\Session\Session
      */
     public function get(array $options = [])
     {
@@ -133,7 +133,7 @@ class AutoSession
      *                       - `expiryTime`: Time the session expires (date string or timestamp); defaults to `+ 2 hours`
      *                       - `timeout`: Activity timeout in seconds (integer or false for none); defaults to `1800` (half an hour)
      *                       - `renewable`: Should it be possible to extend the expiry date?; defaults to `true`
-     * @return \Kirby\Session\Session
+     * @return \Modufolio\Session\Session
      */
     public function createManually(array $options = [])
     {
@@ -147,7 +147,7 @@ class AutoSession
     /**
      * Returns the specified Session object
      * @param string $token Session token, either including or without the key
-     * @return \Kirby\Session\Session
+     * @return \Modufolio\Session\Session
      * @since 3.3.1
      *
      */

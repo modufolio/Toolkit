@@ -30,7 +30,7 @@ class Sessions
     /**
      * Creates a new Sessions instance
      *
-     * @param \Kirby\Session\SessionStore|string $store SessionStore object or a path to the storage directory (uses the FileSessionStore)
+     * @param \Modufolio\Session\SessionStore|string $store SessionStore object or a path to the storage directory (uses the FileSessionStore)
      * @param array $options Optional additional options:
      *                       - `mode`: Default token transmission mode (cookie, header or manual); defaults to `cookie`
      *                       - `cookieName`: Name to use for the session cookie; defaults to `kirby_session`
@@ -40,7 +40,7 @@ class Sessions
     {
         if (is_string($store)) {
             $this->store = new FileSessionStore($store);
-        } elseif (is_a($store, 'Kirby\Session\SessionStore') === true) {
+        } elseif (is_a($store, 'Modufolio\Session\SessionStore') === true) {
             $this->store = $store;
         } else {
             throw new InvalidArgumentException([
@@ -96,7 +96,7 @@ class Sessions
      *                       - `expiryTime`: Time the session expires (date string or timestamp); defaults to `+ 2 hours`
      *                       - `timeout`: Activity timeout in seconds (integer or false for none); defaults to `1800` (half an hour)
      *                       - `renewable`: Should it be possible to extend the expiry date?; defaults to `true`
-     * @return \Kirby\Session\Session
+     * @return \Modufolio\Session\Session
      */
     public function create(array $options = [])
     {
@@ -113,7 +113,7 @@ class Sessions
      *
      * @param string $token Session token, either including or without the key
      * @param string $mode Optional transmission mode override
-     * @return \Kirby\Session\Session
+     * @return \Modufolio\Session\Session
      */
     public function get(string $token, string $mode = null)
     {
@@ -130,7 +130,7 @@ class Sessions
      * - In `header` mode: Gets the session from the `Authorization` request header
      * - In `manual` mode: Fails and throws an Exception
      *
-     * @return \Kirby\Session\Session|null Either the current session or null in case there isn't one
+     * @return \Modufolio\Session\Session|null Either the current session or null in case there isn't one
      */
     public function current()
     {
@@ -174,7 +174,7 @@ class Sessions
      * - Tries to get the session from the cookie
      * - Otherwise returns null
      *
-     * @return \Kirby\Session\Session|null Either the current session or null in case there isn't one
+     * @return \Modufolio\Session\Session|null Either the current session or null in case there isn't one
      */
     public function currentDetected()
     {
@@ -202,7 +202,7 @@ class Sessions
      * Getter for the session store instance
      * Used internally
      *
-     * @return \Kirby\Session\SessionStore
+     * @return \Modufolio\Session\SessionStore
      */
     public function store()
     {
@@ -237,7 +237,7 @@ class Sessions
      * Updates the instance cache with a newly created
      * session or a session with a regenerated token
      *
-     * @param \Kirby\Session\Session $session Session instance to push to the cache
+     * @param \Modufolio\Session\Session $session Session instance to push to the cache
      * @internal
      */
     public function updateCache(Session $session)

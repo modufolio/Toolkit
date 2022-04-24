@@ -393,7 +393,7 @@ class Uri
     }
 
     /**
-     * @param \Kirby\Http\Params|string|array|null $params
+     * @param \Modufolio\Http\Params|string|array|null $params
      * @return $this
      */
     public function setParams($params = null)
@@ -413,7 +413,7 @@ class Uri
     }
 
     /**
-     * @param \Kirby\Http\Path|string|array|null $path
+     * @param \Modufolio\Http\Path|string|array|null $path
      * @return $this
      */
     public function setPath($path = null)
@@ -443,7 +443,7 @@ class Uri
     }
 
     /**
-     * @param \Kirby\Http\Query|string|array|null $query
+     * @param \Modufolio\Http\Query|string|array|null $query
      * @return $this
      */
     public function setQuery($query = null)

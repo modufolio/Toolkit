@@ -179,7 +179,7 @@ class Database
      *
      * @param array|null $params This can either be a config key or an array of parameters for the connection
      * @return \PDO|null
-     * @throws \Kirby\Exception\InvalidArgumentException
+     * @throws \Modufolio\Exception\InvalidArgumentException
      */
     public function connect(array $params = null)
     {
@@ -233,7 +233,7 @@ class Database
      * Sets the exception mode
      *
      * @param bool $fail
-     * @return \Kirby\Database\Database
+     * @return \Modufolio\Database\Database
      */
     public function fail(bool $fail = true)
     {
@@ -473,7 +473,7 @@ class Database
      * Returns the correct Sql generator instance
      * for the type of database
      *
-     * @return \Kirby\Database\Sql
+     * @return \Modufolio\Database\Sql
      */
     public function sql()
     {
@@ -487,7 +487,7 @@ class Database
      * for that table
      *
      * @param string $table
-     * @return \Kirby\Database\Query
+     * @return \Modufolio\Database\Query
      */
     public function table(string $table)
     {
@@ -603,7 +603,7 @@ class Database
      *
      * @param mixed $method
      * @param mixed $arguments
-     * @return \Kirby\Database\Query
+     * @return \Modufolio\Database\Query
      */
     public function __call($method, $arguments = null)
     {

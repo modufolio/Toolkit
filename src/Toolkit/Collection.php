@@ -36,7 +36,7 @@ class Collection extends Iterator implements Countable
 
     /**
      * Pagination object
-     * @var \Kirby\Toolkit\Pagination
+     * @var \Modufolio\Toolkit\Pagination
      */
     protected $pagination;
 
@@ -525,7 +525,7 @@ class Collection extends Iterator implements Countable
      *
      * @param string|Closure $field
      * @param bool $i
-     * @return \Kirby\Toolkit\Collection A new collection with an element for
+     * @return \Modufolio\Toolkit\Collection A new collection with an element for
      *                                   each group and a subcollection in
      *                                   each group
      * @throws \Exception if $field is not a string nor a callback function
@@ -588,7 +588,7 @@ class Collection extends Iterator implements Countable
      *
      * @param string|Closure $field
      * @param bool $i
-     * @return \Kirby\Toolkit\Collection A new collection with an element for
+     * @return \Modufolio\Toolkit\Collection A new collection with an element for
      *                                   each group and a sub collection in
      *                                   each group
      * @throws \Exception
@@ -600,7 +600,7 @@ class Collection extends Iterator implements Countable
 
     /**
      * Returns a Collection with the intersection of the given elements
-     * @param \Kirby\Toolkit\Collection $other
+     * @param \Modufolio\Toolkit\Collection $other
      * @return static
      * @since 3.3.0
      *
@@ -612,7 +612,7 @@ class Collection extends Iterator implements Countable
 
     /**
      * Checks if there is an intersection between the given collection and this collection
-     * @param \Kirby\Toolkit\Collection $other
+     * @param \Modufolio\Toolkit\Collection $other
      * @return bool
      * @since 3.3.0
      *
@@ -756,7 +756,7 @@ class Collection extends Iterator implements Countable
     /**
      * Get the previously added pagination object
      *
-     * @return \Kirby\Toolkit\Pagination|null
+     * @return \Modufolio\Toolkit\Pagination|null
      */
     public function pagination()
     {
@@ -1185,7 +1185,7 @@ class Collection extends Iterator implements Countable
 /**
  * Equals Filter
  *
- * @param \Kirby\Toolkit\Collection $collection
+ * @param \Modufolio\Toolkit\Collection $collection
  * @param mixed $field
  * @param mixed $test
  * @param bool $split
@@ -1210,7 +1210,7 @@ Collection::$filters['=='] = function ($collection, $field, $test, $split = fals
 /**
  * Not Equals Filter
  *
- * @param \Kirby\Toolkit\Collection $collection
+ * @param \Modufolio\Toolkit\Collection $collection
  * @param mixed $field
  * @param mixed $test
  * @param bool $split

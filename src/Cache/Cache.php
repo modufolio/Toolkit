@@ -70,7 +70,7 @@ abstract class Cache
      * this needs to be defined by the driver
      *
      * @param string $key
-     * @return \Kirby\Cache\Value|null
+     * @return \Modufolio\Cache\Value|null
      */
     abstract public function retrieve(string $key);
 
@@ -95,7 +95,7 @@ abstract class Cache
         $value = $this->retrieve($key);
 
         // check for a valid cache value
-        if (!is_a($value, 'Kirby\Cache\Value')) {
+        if (!is_a($value, 'Modufolio\Cache\Value')) {
             return $default;
         }
 

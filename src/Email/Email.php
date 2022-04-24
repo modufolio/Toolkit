@@ -43,7 +43,7 @@ class Email
     protected $attachments;
 
     /**
-     * @var \Kirby\Email\Body|null
+     * @var \Modufolio\Email\Body|null
      */
     protected $body;
 
@@ -134,7 +134,7 @@ class Email
     /**
      * Returns the email body
      *
-     * @return \Kirby\Email\Body|null
+     * @return \Modufolio\Email\Body|null
      */
     public function body()
     {

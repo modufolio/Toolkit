@@ -134,7 +134,7 @@ class Router
      * @param string $path
      * @param string $method
      * @param array $ignore
-     * @return \Kirby\Http\Route|null
+     * @return \Modufolio\Http\Route|null
      */
     public function find(string $path, string $method, array $ignore = null)
     {
@@ -164,7 +164,7 @@ class Router
      * once Router::find() has been called
      * and only if a route was found.
      *
-     * @return \Kirby\Http\Route|null
+     * @return \Modufolio\Http\Route|null
      */
     public function route()
     {
