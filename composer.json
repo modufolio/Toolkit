@@ -36,13 +36,19 @@
   },
   "config": {
     "optimize-autoloader": true,
-    "platform-check": false
+    "platform-check": false,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "autoload": {
     "psr-4": {
       "Modufolio\\": "src/"
     }
 
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9",
+    "pestphp/pest": "^1.21"
   }
-
 }

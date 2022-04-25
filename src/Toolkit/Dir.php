@@ -25,7 +25,7 @@ class Dir
      *
      * @var array
      */
-    public static $ignore = [
+    public static array $ignore = [
         '.',
         '..',
         '.DS_Store',
@@ -45,6 +45,7 @@ class Dir
      * @param bool $recursive
      * @param array $ignore
      * @return bool
+     * @throws Exception
      */
     public static function copy(string $dir, string $target, bool $recursive = true, array $ignore = []): bool
     {
@@ -137,7 +138,7 @@ class Dir
      * @param string $path
      * @return array
      */
-    public static function index(string $dir, bool $recursive = false, array $ignore = null, string $path = null)
+    public static function index(string $dir, bool $recursive = false, array $ignore = null, string $path = null): array
     {
         $result = [];
         $dir = realpath($dir);

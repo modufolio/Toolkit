@@ -49,7 +49,7 @@ class Controller
         return $this->function->call($bind, ...$args);
     }
 
-    public static function load(string $file)
+    public static function load(string $file): ?Controller
     {
         if (is_file($file) === false) {
             return null;

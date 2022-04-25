@@ -346,6 +346,7 @@ class File
      *
      * @param string $content
      * @return bool
+     * @throws Exception
      */
     public function write($content): bool
     {

@@ -42,7 +42,7 @@ class Date
         $count = count(array_filter(str_split($date), 'ctype_alpha')); // count the number of letters in the date
         $month = $count === 3 ? 'M' : 'F';
 
-        return str_ireplace(self::$translation[$lang][$month], self::$translation['en']['M'], $date);
+        return str_ireplace(self::$translation[$lang][$month], self::$translation['en'][$month], $date);
     }
 
     public static function format(string $date, $format = 'Y-m-d')

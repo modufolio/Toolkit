@@ -710,27 +710,33 @@ class A
     }
 
     /**
-     * Filter the array using the given callback.
+     * Filter the array using the given callback
+     * using both value and key
      *
      * @param array $array
-     * @param  callable  $callback
+     * @param callable $callback
      * @return array
      */
-    public static function where(array $array, callable $callback): array
+    public static function filter(array $array, callable $callback): array
     {
         return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
     }
 
     /**
-     * Filter items where the value is not null.
+     * Remove key(s) from an array
      *
      * @param array $array
+     * @param int|string|array $keys
      * @return array
      */
-    public static function whereNotNull(array $array): array
+    public static function without(array $array, $keys): array
     {
-        return static::where($array, function ($value) {
-            return ! is_null($value);
+        if (is_int($keys) || is_string($keys)) {
+            $keys = static::wrap($keys);
+        }
+
+        return static::filter($array, function ($value, $key) use ($keys) {
+            return in_array($key, $keys, true) === false;
         });
     }
 

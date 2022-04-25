@@ -89,6 +89,7 @@ class Locale
      *
      * @param array|string $locale
      * @return void
+     * @throws InvalidArgumentException
      */
     public static function set($locale): void
     {
