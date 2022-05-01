@@ -653,7 +653,7 @@ Database::$types['mysql'] = [
  * SQLite database connector
  */
 Database::$types['sqlite'] = [
-    'sql' => 'Kirby\Database\Sql\Sqlite',
+    'sql' => 'Modufolio\Database\Sql\Sqlite',
     'dsn' => function (array $params) {
         if (isset($params['database']) === false) {
             throw new InvalidArgumentException('The sqlite connection requires a "database" parameter');
