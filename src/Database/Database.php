@@ -411,8 +411,8 @@ class Database
         $defaults = [
             'flag' => null,
             'method' => 'fetchAll',
-            'fetch' => 'Kirby\Toolkit\Obj',
-            'iterator' => 'Kirby\Toolkit\Collection',
+            'fetch' => 'Modufolio\Toolkit\Obj',
+            'iterator' => 'Modufolio\Toolkit\Collection',
         ];
 
         $options = array_merge($defaults, $params);
