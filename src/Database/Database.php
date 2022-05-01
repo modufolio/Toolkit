@@ -615,7 +615,7 @@ class Database
  * MySQL database connector
  */
 Database::$types['mysql'] = [
-    'sql' => 'Kirby\Database\Sql\Mysql',
+    'sql' => 'Modufolio\Database\Sql\Mysql',
     'dsn' => function (array $params) {
         if (isset($params['host']) === false && isset($params['socket']) === false) {
             throw new InvalidArgumentException('The mysql connection requires either a "host" or a "socket" parameter');
