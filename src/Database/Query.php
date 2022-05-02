@@ -34,14 +34,14 @@ class Query
      *
      * @var string|\Closure
      */
-    protected $fetch = 'Kirby\Toolkit\Obj';
+    protected $fetch = 'Modufolio\Toolkit\Obj';
 
     /**
      * The iterator class, which should be used for result sets
      *
      * @var string
      */
-    protected $iterator = 'Kirby\Toolkit\Collection';
+    protected $iterator = 'Modufolio\Toolkit\Collection';
 
     /**
      * An array of bindings for the final query
