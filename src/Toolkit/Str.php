@@ -347,11 +347,7 @@ class Str
             $string = strip_tags(str_replace('<', ' <', $string));
         }
 
-        // replace line breaks with spaces
-        $string = str_replace(PHP_EOL, ' ', trim($string));
-
-        // remove double spaces
-        $string = preg_replace('![ ]{2,}!', ' ', $string);
+        $string = static::clean($string);
 
         if ($chars === 0) {
             return $string;
@@ -591,7 +587,7 @@ class Str
             $search = $search->toArray();
         }
 
-        if (is_a($replace, 'Kirby\Toolkit\Collection') === true) {
+        if (is_a($replace, 'Modufolio\Toolkit\Collection') === true) {
             $replace = $replace->toArray();
         }
 
@@ -1151,5 +1147,14 @@ class Str
                 return $matches[1] . '&nbsp;' . $matches[2];
             }
         }, $string);
+    }
+
+    public static function clean(string $string): string
+    {
+        // replace line breaks with spaces
+        $string = str_replace(PHP_EOL, ' ', trim($string));
+
+        // remove double spaces
+        return preg_replace('![ ]{2,}!', ' ', $string);
     }
 }
