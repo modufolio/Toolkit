@@ -29,3 +29,5 @@
 /vendor/*/*/example/*
 /vendor/*/*/examples/*
 /vendor/*/*/php4/*
+*.cache
+.env
