@@ -31,8 +31,8 @@
     "mustangostang/spyc": "0.6.3",
     "phpmailer/phpmailer": "6.5.1",
     "psr/log": "1.1.4",
-    "true/punycode": "2.1.1"
-
+    "true/punycode": "2.1.1",
+    "ext-readline": "*"
   },
   "config": {
     "optimize-autoloader": true,
