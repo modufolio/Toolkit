@@ -53,6 +53,54 @@ class A
     }
 
     /**
+     * Cross join the given arrays, returning all possible permutations.
+     *
+     * @param array ...$arrays
+     */
+    public static function crossJoin(...$arrays): array
+    {
+        $results = [[]];
+        foreach ($arrays as $index => $array) {
+            $append = [];
+            foreach ($results as $product) {
+                foreach ($array as $item) {
+                    $product[$index] = $item;
+                    $append[] = $product;
+                }
+            }
+            $results = $append;
+        }
+        return $results;
+    }
+
+    /**
+     * Divide an array into two arrays. One with keys and the other with values.
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function divide($array)
+    {
+        return [array_keys($array), array_values($array)];
+    }
+
+    /**
+     * Flatten a multi-dimensional associative array with dots.
+     */
+    public static function dot(array $array, string $prepend = ''): array
+    {
+        $results = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value) && ! empty($value)) {
+                $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
+            } else {
+                $results[$prepend . $key] = $value;
+            }
+        }
+        return $results;
+    }
+
+    /**
      * Gets an element of an array by key
      *
      * <code>
@@ -741,21 +789,34 @@ class A
     }
 
     /**
+     * Convert the array into a query string.
+     */
+    public static function query(array $array): string
+    {
+        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+    }
+
+    /**
+     * Filter the array using the given callback.
+     */
+    public static function where(array $array, callable $callback): array
+    {
+        return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+    }
+
+    /**
      * Wraps the given value in an array
      * if it's not an array yet.
      *
-     * @param mixed|null $array
+     * @param $value
      * @return array
      */
-    public static function wrap($array = null): array
+    public static function wrap($value): array
     {
-        if ($array === null) {
+        if (is_null($value)) {
             return [];
-        } elseif (is_array($array) === false) {
-            return [$array];
-        } else {
-            return $array;
         }
+        return ! is_array($value) ? [$value] : $value;
     }
 
 
