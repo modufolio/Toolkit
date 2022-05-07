@@ -1,22 +1,42 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of the Modufolio\Toolkit package.
+ * @license     MIT License <http://opensource.org/licenses/MIT>
+ * @author      Modufolio
+ */
 namespace Modufolio\Toolkit;
 
 use Exception;
 
 /**
- * The String class provides a set
- * of handy methods for string
- * handling and manipulation.
- *
- * @package   Kirby Toolkit
- * @author    Bastian Allgeier <bastian@getkirby.com>
- * @link      https://getkirby.com
- * @copyright Bastian Allgeier GmbH
- * @license   https://opensource.org/licenses/MIT
+ * Most of the methods in this file come from illuminate/support and getkirby/kirby
+ * thanks to Laravel Team and Kirby Team.
  */
 class Str
 {
+    /**
+     * The cache of snake-cased words.
+     *
+     * @var array
+     */
+    protected static array $snakeCache = [];
+
+    /**
+     * The cache of camel-cased words.
+     *
+     * @var array
+     */
+    protected static array $camelCache = [];
+
+    /**
+     * The cache of studly-cased words.
+     *
+     * @var array
+     */
+    protected static array $studlyCache = [];
+
     /**
      * Language translation table
      *
@@ -248,9 +268,27 @@ class Str
      * @param bool $caseInsensitive
      * @return bool
      */
-    public static function contains(string $string = null, string $needle, bool $caseInsensitive = false): bool
+    public static function contains(string $string, string $needle, bool $caseInsensitive = false): bool
     {
         return call_user_func($caseInsensitive === true ? 'stristr' : 'strstr', $string, $needle) !== false;
+    }
+
+    /**
+     * Determine if a given string contains all array values.
+     *
+     * @param string $string
+     * @param string[] $needles
+     * @return bool
+     */
+    public static function containsAll(string $string, array $needles): bool
+    {
+        foreach ($needles as $needle) {
+            if (!static::contains($string, $needle)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -261,7 +299,7 @@ class Str
      * @param string $sourceEncoding (optional)
      * @return string
      */
-    public static function convert($string, $targetEncoding, $sourceEncoding = null)
+    public static function convert($string, $targetEncoding, $sourceEncoding = null): string
     {
         // detect the source encoding if not passed as third argument
         if ($sourceEncoding === null) {
@@ -412,7 +450,7 @@ class Str
     /**
      * Convert a string to kebab case.
      *
-     * @param string $value
+     * @param string|null $value
      * @return string
      */
     public static function kebab(string $value = null): string
@@ -420,10 +458,11 @@ class Str
         return static::snake($value, '-');
     }
 
+
     /**
      * A UTF-8 safe version of strlen()
      *
-     * @param string $string
+     * @param string|null $string $string
      * @return int
      */
     public static function length(string $string = null): int
@@ -434,7 +473,7 @@ class Str
     /**
      * A UTF-8 safe version of strtolower()
      *
-     * @param string $string
+     * @param string|null $string $string
      * @return string
      */
     public static function lower(string $string = null): string
@@ -452,6 +491,42 @@ class Str
     public static function ltrim(string $string, string $trim = ' '): string
     {
         return preg_replace('!^(' . preg_quote($trim) . ')+!', '', $string);
+    }
+
+    /**
+     * Get the string matching the given pattern.
+     *
+     * @param string $pattern
+     * @param string $subject
+     * @return string
+     */
+    public static function match(string $pattern, string $subject): string
+    {
+        preg_match($pattern, $subject, $matches);
+
+        if (! $matches) {
+            return '';
+        }
+
+        return $matches[1] ?? $matches[0];
+    }
+
+    /**
+     * Get the string matching the given pattern.
+     *
+     * @param string $pattern
+     * @param string $subject
+     * @return Collection
+     */
+    public static function matchAll(string $pattern, string $subject): Collection
+    {
+        preg_match_all($pattern, $subject, $matches);
+
+        if (empty($matches[0])) {
+            return new Collection();
+        }
+
+        return new Collection($matches[1] ?? $matches[0]);
     }
 
 
@@ -504,7 +579,7 @@ class Str
      * @param bool $caseInsensitive
      * @return int|bool
      */
-    public static function position(string $string = null, string $needle, bool $caseInsensitive = false)
+    public static function position(string $string, string $needle, bool $caseInsensitive = false)
     {
         if ($caseInsensitive === true) {
             $string = static::lower($string);
@@ -530,9 +605,10 @@ class Str
     /**
      * Generates a random string that may be used for cryptographic purposes
      *
-     * @param int $length The length of the random string
+     * @param int|null $length The length of the random string
      * @param string $type Pool type (type of allowed characters)
      * @return string
+     * @throws Exception
      */
     public static function random(int $length = null, string $type = 'alphaNum')
     {
@@ -563,6 +639,21 @@ class Str
     }
 
     /**
+     * Remove any occurrence of the given string in the subject.
+     *
+     * @param array<string>|string $search
+     * @param string $subject
+     * @param bool $caseSensitive
+     * @return string
+     */
+    public static function remove($search, string $subject, bool $caseSensitive = true): string
+    {
+        return $caseSensitive
+            ? str_replace($search, '', $subject)
+            : str_ireplace($search, '', $subject);
+    }
+
+    /**
      * Replaces all or some occurrences of the search string with the replacement string
      * Extension of the str_replace() function in PHP with an additional $limit parameter
      *
@@ -575,6 +666,7 @@ class Str
      *                         defaults to no limit
      * @return string|array String with replaced values;
      *                      if $string is an array, array of strings
+     * @throws Exception
      */
     public static function replace($string, $search, $replace, $limit = -1)
     {
@@ -630,6 +722,7 @@ class Str
      *                         defaults to no limit
      * @return array List of replacement arrays, each with a
      *               'search', 'replace' and 'limit' attribute
+     * @throws Exception
      */
     public static function replacements($search, $replace, $limit): array
     {
@@ -677,6 +770,7 @@ class Str
      * @param string $string String being replaced on (haystack)
      * @param array $replacements Replacement array from Str::replacements()
      * @return string String with replaced values
+     * @throws Exception
      */
     public static function replaceReplacements(string $string, array $replacements): string
     {
@@ -737,7 +831,7 @@ class Str
      *
      * </code>
      *
-     * @param string $string The string to be shortened
+     * @param string|null $string $string The string to be shortened
      * @param int $length The final number of characters the
      *                    string should have
      * @param string $appendix The element, which should be added if the
@@ -874,7 +968,7 @@ class Str
     /**
      * Convert a string to snake case.
      *
-     * @param string $value
+     * @param string|null $value
      * @param string $delimiter
      * @return string
      */
@@ -898,7 +992,7 @@ class Str
      * @param int $length The min length of values.
      * @return array An array of found values
      */
-    public static function split($string, string $separator = ',', int $length = 1): array
+    public static function split(string $string, string $separator = ',', int $length = 1): array
     {
         if (is_array($string) === true) {
             return $string;
@@ -932,6 +1026,22 @@ class Str
         }
 
         return static::position($string, $needle, $caseInsensitive) === 0;
+    }
+
+    /**
+     * Convert a value to studly caps case.
+     */
+    public static function studly(string $value, string $gap = ''): string
+    {
+        $key = $value;
+
+        if (isset(static::$studlyCache[$key])) {
+            return static::$studlyCache[$key];
+        }
+
+        $value = ucwords(str_replace(['-', '_'], ' ', $value));
+
+        return static::$studlyCache[$key] = str_replace(' ', $gap, $value);
     }
 
     /**
@@ -1066,7 +1176,7 @@ class Str
      * @param string $string
      * @return string
      */
-    public static function ucfirst(string $string = null): string
+    public static function ucfirst(string $string): string
     {
         return static::upper(static::substr($string, 0, 1)) . static::lower(static::substr($string, 1));
     }
@@ -1128,6 +1238,20 @@ class Str
     public static function upper(string $string = null): string
     {
         return mb_strtoupper($string, 'UTF-8');
+    }
+
+    /**
+     * Limit the number of words in a string.
+     */
+    public static function words(string $value, int $words = 100, string $end = '...'): string
+    {
+        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
+
+        if (! isset($matches[0]) || static::length($value) === static::length($matches[0])) {
+            return $value;
+        }
+
+        return rtrim($matches[0]) . $end;
     }
 
     /**
