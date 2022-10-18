@@ -398,7 +398,7 @@ class Uri
      */
     public function setParams($params = null)
     {
-        $this->params = is_a($params, 'Kirby\Http\Params') === true ? $params : new Params($params);
+        $this->params = is_a($params, 'Modufolio\Http\Params') === true ? $params : new Params($params);
         return $this;
     }
 
@@ -418,7 +418,7 @@ class Uri
      */
     public function setPath($path = null)
     {
-        $this->path = is_a($path, 'Kirby\Http\Path') === true ? $path : new Path($path);
+        $this->path = is_a($path, 'Modufolio\Http\Path') === true ? $path : new Path($path);
         return $this;
     }
 
@@ -448,7 +448,7 @@ class Uri
      */
     public function setQuery($query = null)
     {
-        $this->query = is_a($query, 'Kirby\Http\Query') === true ? $query : new Query($query);
+        $this->query = is_a($query, 'Modufolio\Http\Query') === true ? $query : new Query($query);
         return $this;
     }
 
