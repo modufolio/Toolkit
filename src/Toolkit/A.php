@@ -51,6 +51,18 @@ class A
 
         return $array;
     }
+    
+    /**
+     * Find duplicates
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    public static function duplicates(array $array): array
+    {
+        return array_unique(array_diff_assoc($array, array_unique($array)));
+    }
 
     /**
      * Cross join the given arrays, returning all possible permutations.
