@@ -32,7 +32,8 @@
     "phpmailer/phpmailer": "6.5.1",
     "psr/log": "1.1.4",
     "true/punycode": "2.1.1",
-    "ext-readline": "*"
+    "ext-readline": "*",
+    "ext-iconv": "*"
   },
   "config": {
     "optimize-autoloader": true,
