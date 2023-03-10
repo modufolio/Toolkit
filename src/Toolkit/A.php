@@ -5,18 +5,10 @@ namespace Modufolio\Toolkit;
 use Exception;
 
 /**
- * The `A` class provides a set of handy methods
- * to simplify array handling and make it more
- * consistent. The class contains methods for
- * fetching elements from arrays, merging and
- * sorting or shuffling arrays.
- *
- * @package   Kirby Toolkit
- * @author    Bastian Allgeier <bastian@getkirby.com>
- * @link      https://getkirby.com
- * @copyright Bastian Allgeier GmbH
- * @license   https://opensource.org/licenses/MIT
+ * Most of the methods in this file come from illuminate/support and getkirby/kirby
+ * thanks to Laravel Team and Kirby Team.
  */
+
 class A
 {
     /**
@@ -35,7 +27,6 @@ class A
      * Recursively loops through the array and
      * resolves any item defined as `Closure`,
      * applying the passed parameters
-     * @since 3.5.6
      *
      * @param array $array
      * @param mixed ...$args Parameters to pass to the closures
@@ -50,6 +41,18 @@ class A
         });
 
         return $array;
+    }
+
+    /**
+     * Returns the average value of an array
+     *
+     * @param array $array The source array
+     * @param int $decimals The number of decimals to return
+     * @return float The average value
+     */
+    public static function average(array $array, int $decimals = 0): float
+    {
+        return round((array_sum($array) / sizeof($array)), $decimals);
     }
     
     /**
@@ -113,24 +116,65 @@ class A
     }
 
     /**
+     * Merges arrays recursively
+     *
+     * @param array ...$arrays
+     * @return array
+     */
+    public static function extend(...$arrays): array
+    {
+        return array_merge_recursive(...$arrays);
+    }
+
+    /**
+     * Fills an array up with additional elements to certain amount.
+     *
+     * @param array $array The source array
+     * @param int $limit The number of elements the array should
+     *                   contain after filling it up.
+     * @param mixed $fill The element, which should be used to
+     *                    fill the array
+     * @return array The filled-up result array
+     */
+    public static function fill(array $array, int $limit, $fill = 'placeholder'): array
+    {
+        if (count($array) < $limit) {
+            $diff = $limit - count($array);
+            for ($x = 0; $x < $diff; $x++) {
+                $array[] = $fill;
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * Filter the array using the given callback
+     * using both value and key
+     *
+     * @param array $array
+     * @param callable $callback
+     * @return array
+     */
+    public static function filter(array $array, callable $callback): array
+    {
+        return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+    }
+
+    /**
+     * Returns the first element of an array
+     *
+     * @param array $array The source array
+     * @return mixed The first element
+     */
+    public static function first(array $array)
+    {
+        return array_shift($array);
+    }
+
+
+
+    /**
      * Gets an element of an array by key
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * echo A::get($array, 'cat');
-     * // output: 'miao'
-     *
-     * echo A::get($array, 'elephant', 'shut up');
-     * // output: 'shut up'
-     *
-     * $catAndDog = A::get($array, ['cat', 'dog']);
-     * // result: ['cat' => 'miao', 'dog' => 'wuff'];
-     * </code>
      *
      * @param array $array The source array
      * @param mixed $key The key to look for
@@ -201,6 +245,65 @@ class A
     }
 
     /**
+     * Function that groups an array of associative arrays by some key.
+     * these will contain the original values.
+     *
+     * @param string $key The key to group by
+     * @param array $array The array to group
+     * @return array
+     */
+    public static function groupBy(string $key, array $array): array
+    {
+        $output = [];
+        foreach ($array as $a)
+        {
+            if(array_key_exists($key, $a)){
+                $output[$a[$key]][] = $a;
+            }
+        }
+        return $output;
+    }
+
+    /**
+     * Determines if an array is associative.
+     *
+     * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
+     *
+     * @param  array  $array
+     * @return bool
+     */
+    public static function isAssoc(array $array): bool
+    {
+        $keys = array_keys($array);
+
+        return array_keys($keys) !== $keys;
+    }
+
+    /**
+     * Determines if an array is a list.
+     *
+     * An array is a "list" if all array keys are sequential integers starting from 0 with no gaps in between.
+     *
+     * @param  array  $array
+     * @return bool
+     */
+    public static function isList($array): bool
+    {
+        return ! self::isAssoc($array);
+    }
+
+    /**
+     * Checks whether an array is associative or not
+     *
+     * @param array $array The array to analyze
+     * @return bool true: The array is associative false: It's not
+     */
+    public static function isAssociative(array $array): bool
+    {
+        return ctype_digit(implode('', array_keys($array))) === false;
+    }
+
+    /**
      * @param mixed $value
      * @param mixed $separator
      * @return string
@@ -211,6 +314,34 @@ class A
             return $value;
         }
         return implode($separator, $value);
+    }
+
+
+
+    /**
+     * Returns the last element of an array
+     *
+     * @param array $array The source array
+     * @return mixed The last element
+     */
+    public static function last(array $array)
+    {
+        return array_pop($array);
+    }
+
+
+
+    /**
+     * A simple wrapper around array_map
+     * with a sane argument order
+     *
+     * @param array $array
+     * @param callable $map
+     * @return array
+     */
+    public static function map(array $array, callable $map): array
+    {
+        return array_map($map, $array);
     }
 
     const MERGE_OVERWRITE = 0;
@@ -228,7 +359,7 @@ class A
      *                  A::MERGE_REPLACE:   non-associative arrays are completely replaced
      * @return array
      */
-    public static function merge($array1, $array2, int $mode = A::MERGE_APPEND): array
+    public static function merge(array $array1, array $array2, int $mode = A::MERGE_APPEND): array
     {
         $merged = $array1;
 
@@ -264,191 +395,6 @@ class A
     }
 
     /**
-     * Plucks a single column from an array
-     *
-     * <code>
-     * $array[] = [
-     *   'id' => 1,
-     *   'username' => 'homer',
-     * ];
-     *
-     * $array[] = [
-     *   'id' => 2,
-     *   'username' => 'marge',
-     * ];
-     *
-     * $array[] = [
-     *   'id' => 3,
-     *   'username' => 'lisa',
-     * ];
-     *
-     * var_dump(A::pluck($array, 'username'));
-     * // result: ['homer', 'marge', 'lisa'];
-     * </code>
-     *
-     * @param array $array The source array
-     * @param string $key The key name of the column to extract
-     * @return array The result array with all values
-     *               from that column.
-     */
-    public static function pluck(array $array, string $key)
-    {
-        $output = [];
-        foreach ($array as $a) {
-            if (isset($a[$key]) === true) {
-                $output[] = $a[$key];
-            }
-        }
-
-        return $output;
-    }
-
-    /**
-     * Prepends the given array
-     *
-     * @param array $array
-     * @param array $prepend
-     * @return array
-     */
-    public static function prepend(array $array, array $prepend): array
-    {
-        return $prepend + $array;
-    }
-
-    /**
-     * Shuffles an array and keeps the keys
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * $shuffled = A::shuffle($array);
-     * // output: [
-     * //    'dog' => 'wuff',
-     * //    'cat' => 'miao',
-     * //    'bird' => 'tweet'
-     * // ];
-     * </code>
-     *
-     * @param array $array The source array
-     * @return array The shuffled result array
-     */
-    public static function shuffle(array $array): array
-    {
-        $keys = array_keys($array);
-        $new  = [];
-
-        shuffle($keys);
-
-        // resort the array
-        foreach ($keys as $key) {
-            $new[$key] = $array[$key];
-        }
-
-        return $new;
-    }
-
-    /**
-     * Returns the first element of an array
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * $first = A::first($array);
-     * // first: 'miao'
-     * </code>
-     *
-     * @param array $array The source array
-     * @return mixed The first element
-     */
-    public static function first(array $array)
-    {
-        return array_shift($array);
-    }
-
-    /**
-     * Returns the last element of an array
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * $last = A::last($array);
-     * // last: 'tweet'
-     * </code>
-     *
-     * @param array $array The source array
-     * @return mixed The last element
-     */
-    public static function last(array $array)
-    {
-        return array_pop($array);
-    }
-
-    /**
-     * Fills an array up with additional elements to certain amount.
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * $result = A::fill($array, 5, 'elephant');
-     *
-     * // result: [
-     * //   'cat',
-     * //   'dog',
-     * //   'bird',
-     * //   'elephant',
-     * //   'elephant',
-     * // ];
-     * </code>
-     *
-     * @param array $array The source array
-     * @param int $limit The number of elements the array should
-     *                   contain after filling it up.
-     * @param mixed $fill The element, which should be used to
-     *                    fill the array
-     * @return array The filled-up result array
-     */
-    public static function fill(array $array, int $limit, $fill = 'placeholder'): array
-    {
-        if (count($array) < $limit) {
-            $diff = $limit - count($array);
-            for ($x = 0; $x < $diff; $x++) {
-                $array[] = $fill;
-            }
-        }
-        return $array;
-    }
-
-    /**
-     * A simple wrapper around array_map
-     * with a sane argument order
-     * @since 3.6.0
-     *
-     * @param array $array
-     * @param callable $map
-     * @return array
-     */
-    public static function map(array $array, callable $map): array
-    {
-        return array_map($map, $array);
-    }
-
-    /**
      * Move an array item to a new index
      *
      * @param array $array
@@ -479,24 +425,6 @@ class A
 
     /**
      * Checks for missing elements in an array
-     *
-     * This is very handy to check for missing
-     * user values in a request for example.
-     *
-     * <code>
-     * $array = [
-     *   'cat'  => 'miao',
-     *   'dog'  => 'wuff',
-     *   'bird' => 'tweet'
-     * ];
-     *
-     * $required = ['cat', 'elephant'];
-     *
-     * $missing = A::missing($array, $required);
-     * // missing: [
-     * //    'elephant'
-     * // ];
-     * </code>
      *
      * @param array $array The source array
      * @param array $required An array of required keys
@@ -595,45 +523,99 @@ class A
     }
 
     /**
+     * Get a subset of the items from the given array.
+     *
+     * @param array $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    public static function only(array $array, $keys): array
+    {
+        return array_intersect_key($array, array_flip((array) $keys));
+    }
+
+    /**
+     * Plucks a single column from an array
+     *
+     * @param array $array The source array
+     * @param string $key The key name of the column to extract
+     * @return array The result array with all values
+     *               from that column.
+     */
+    public static function pluck(array $array, string $key)
+    {
+        $output = [];
+        foreach ($array as $a) {
+            if (isset($a[$key]) === true) {
+                $output[] = $a[$key];
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Prepends the given array
+     *
+     * @param array $array
+     * @param array $prepend
+     * @return array
+     */
+    public static function prepend(array $array, array $prepend): array
+    {
+        return $prepend + $array;
+    }
+
+    /**
+     * Shuffles an array and keeps the keys
+     *
+     * @param array $array The source array
+     * @return array The shuffled result array
+     */
+    public static function shuffle(array $array): array
+    {
+        $keys = array_keys($array);
+        $new  = [];
+
+        shuffle($keys);
+
+        // resort the array
+        foreach ($keys as $key) {
+            $new[$key] = $array[$key];
+        }
+
+        return $new;
+    }
+
+
+
+
+
+    /**
+     * Convert the array into a query string.
+     */
+    public static function query(array $array): string
+    {
+        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+    }
+
+    public static function search($key, array $array)
+    {
+        if (isset($array[$key])) {
+            return $array[$key];
+        }
+
+        foreach ($array as $value) {
+            if (is_array($value) && ($result = self::search($key, $value))) {
+                return $result;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Sorts a multi-dimensional array by a certain column
-     *
-     * <code>
-     * $array[0] = [
-     *   'id' => 1,
-     *   'username' => 'mike',
-     * ];
-     *
-     * $array[1] = [
-     *   'id' => 2,
-     *   'username' => 'peter',
-     * ];
-     *
-     * $array[3] = [
-     *   'id' => 3,
-     *   'username' => 'john',
-     * ];
-     *
-     * $sorted = A::sort($array, 'username ASC');
-     * // Array
-     * // (
-     * //      [0] => Array
-     * //          (
-     * //              [id] => 3
-     * //              [username] => john
-     * //          )
-     * //      [1] => Array
-     * //          (
-     * //              [id] => 1
-     * //              [username] => mike
-     * //          )
-     * //      [2] => Array
-     * //          (
-     * //              [id] => 2
-     * //              [username] => peter
-     * //          )
-     * // )
-     *
-     * </code>
      *
      * @param array $array The source array
      * @param string $field The name of the column
@@ -669,88 +651,11 @@ class A
         return $result;
     }
 
-    /**
-     * Checks whether an array is associative or not
-     *
-     * <code>
-     * $array = ['a', 'b', 'c'];
-     *
-     * A::isAssociative($array);
-     * // returns: false
-     *
-     * $array = ['a' => 'a', 'b' => 'b', 'c' => 'c'];
-     *
-     * A::isAssociative($array);
-     * // returns: true
-     * </code>
-     *
-     * @param array $array The array to analyze
-     * @return bool true: The array is associative false: It's not
-     */
-    public static function isAssociative(array $array): bool
-    {
-        return ctype_digit(implode('', array_keys($array))) === false;
-    }
-
-    /**
-     * Returns the average value of an array
-     *
-     * @param array $array The source array
-     * @param int $decimals The number of decimals to return
-     * @return float The average value
-     */
-    public static function average(array $array, int $decimals = 0): float
-    {
-        return round((array_sum($array) / sizeof($array)), $decimals);
-    }
-
-    /**
-     * Merges arrays recursively
-     *
-     * <code>
-     * $defaults = [
-     *   'username' => 'admin',
-     *   'password' => 'admin',
-     * ];
-     *
-     * $options = A::extend($defaults, ['password' => 'super-secret']);
-     * // returns: [
-     * //   'username' => 'admin',
-     * //   'password' => 'super-secret'
-     * // ];
-     * </code>
-     *
-     * @param array ...$arrays
-     * @return array
-     */
-    public static function extend(...$arrays): array
-    {
-        return array_merge_recursive(...$arrays);
-    }
 
     /**
      * Update an array with a second array
      * The second array can contain callbacks as values,
      * which will get the original values as argument
-     *
-     * <code>
-     * $user = [
-     *   'username' => 'homer',
-     *   'email'    => 'homer@simpsons.com'
-     * ];
-     *
-     * // simple updates
-     * A::update($user, [
-     *   'username' => 'homer j. simpson'
-     * ]);
-     *
-     * // with callback
-     * A::update($user, [
-     *   'username' => function ($username) {
-     *     return $username . ' j. simpson'
-     *   }
-     * ]);
-     * </code>
      *
      * @param array $array
      * @param array $update
@@ -769,18 +674,11 @@ class A
         return $array;
     }
 
-    /**
-     * Filter the array using the given callback
-     * using both value and key
-     *
-     * @param array $array
-     * @param callable $callback
-     * @return array
-     */
-    public static function filter(array $array, callable $callback): array
+    public static function unique(array $array): array
     {
-        return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
+        return array_unique($array);
     }
+
 
     /**
      * Remove key(s) from an array
@@ -800,13 +698,6 @@ class A
         });
     }
 
-    /**
-     * Convert the array into a query string.
-     */
-    public static function query(array $array): string
-    {
-        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
-    }
 
     /**
      * Filter the array using the given callback.
@@ -831,81 +722,5 @@ class A
         return ! is_array($value) ? [$value] : $value;
     }
 
-
-
-    /**
-     * Determines if an array is associative.
-     *
-     * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
-     *
-     * @param  array  $array
-     * @return bool
-     */
-    public static function isAssoc(array $array): bool
-    {
-        $keys = array_keys($array);
-
-        return array_keys($keys) !== $keys;
-    }
-
-    /**
-     * Determines if an array is a list.
-     *
-     * An array is a "list" if all array keys are sequential integers starting from 0 with no gaps in between.
-     *
-     * @param  array  $array
-     * @return bool
-     */
-    public static function isList($array): bool
-    {
-        return ! self::isAssoc($array);
-    }
-
-    /**
-     * Get a subset of the items from the given array.
-     *
-     * @param  array  $array
-     * @param  array|string  $keys
-     * @return array
-     */
-    public static function only($array, $keys): array
-    {
-        return array_intersect_key($array, array_flip((array) $keys));
-    }
-
-    public static function search($key, array $array)
-    {
-        if (isset($array[$key])) {
-            return $array[$key];
-        }
-
-        foreach ($array as $value) {
-            if (is_array($value) && ($result = self::search($key, $value))) {
-                return $result;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Function that groups an array of associative arrays by some key.
-     * these will contain the original values.
-     *
-     * @param string $key The key to group by
-     * @param array $array The array to group
-     * @return array
-     */
-    public static function groupBy(string $key, array $array): array
-    {
-        $output = [];
-        foreach ($array as $a)
-        {
-            if(array_key_exists($key, $a)){
-                $output[$a[$key]][] = $a;
-            }
-        }
-        return $output;
-    }
 
 }
