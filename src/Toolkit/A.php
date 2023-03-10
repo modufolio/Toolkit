@@ -401,6 +401,7 @@ class A
      * @param int $from
      * @param int $to
      * @return array
+     * @throws Exception
      */
     public static function move(array $array, int $from, int $to): array
     {
@@ -433,13 +434,7 @@ class A
      */
     public static function missing(array $array, array $required = []): array
     {
-        $missing = [];
-        foreach ($required as $r) {
-            if (isset($array[$r]) === false) {
-                $missing[] = $r;
-            }
-        }
-        return $missing;
+        return array_values(array_diff($required, array_keys($array)));
     }
 
     /**
@@ -542,7 +537,7 @@ class A
      * @return array The result array with all values
      *               from that column.
      */
-    public static function pluck(array $array, string $key)
+    public static function pluck(array $array, string $key): array
     {
         $output = [];
         foreach ($array as $a) {
