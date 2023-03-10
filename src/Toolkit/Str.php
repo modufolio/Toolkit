@@ -255,9 +255,22 @@ class Str
      * @param string $end
      * @return string
      */
-    public static function between(string $string = null, string $start, string $end): string
+    public static function between(string $string, string $start, string $end): string
     {
+        if ($start === '' || $end === '') {
+            return $string;
+        }
+
         return static::before(static::after($string, $start), $end);
+    }
+
+    public static function clean(string $string): string
+    {
+        // replace line breaks with spaces
+        $string = str_replace(PHP_EOL, ' ', trim($string));
+
+        // remove double spaces
+        return preg_replace('![ ]{2,}!', ' ', $string);
     }
 
     /**
@@ -460,23 +473,23 @@ class Str
 
 
     /**
-     * A UTF-8 safe version of strlen()
+     * Return the length of the given string.
      *
      * @param string|null $string $string
      * @return int
      */
-    public static function length(string $string = null): int
+    public static function length(string $string): int
     {
         return mb_strlen($string, 'UTF-8');
     }
 
     /**
-     * A UTF-8 safe version of strtolower()
+     * Convert the given string to lower-case.
      *
      * @param string|null $string $string
      * @return string
      */
-    public static function lower(string $string = null): string
+    public static function lower(string $string): string
     {
         return mb_strtolower($string, 'UTF-8');
     }
@@ -654,61 +667,27 @@ class Str
     }
 
     /**
-     * Replaces all or some occurrences of the search string with the replacement string
-     * Extension of the str_replace() function in PHP with an additional $limit parameter
+     * Replace the given value in the given string.
      *
-     * @param string|array $string String being replaced on (haystack);
-     *                             can be an array of multiple subject strings
-     * @param string|array $search Value being searched for (needle)
-     * @param string|array $replace Value to replace matches with
-     * @param int|array $limit Maximum possible replacements for each search value;
-     *                         multiple limits for each search value are supported;
-     *                         defaults to no limit
-     * @return string|array String with replaced values;
-     *                      if $string is an array, array of strings
-     * @throws Exception
+     * @param  string|string[]  $search
+     * @param  string|string[]  $replace
+     * @param  string|string[]  $subject
+     * @return string
      */
-    public static function replace($string, $search, $replace, $limit = -1)
+    public static function replace($search, $replace, $subject): string
     {
-        // convert Kirby collections to arrays
-        if (is_a($string, 'Modufolio\Toolkit\Collection') === true) {
-            $string = $string->toArray();
-        }
+        return str_replace($search, $replace, $subject);
+    }
 
-        if (is_a($search, 'Modufolio\Toolkit\Collection') === true) {
-            $search = $search->toArray();
-        }
-
-        if (is_a($replace, 'Modufolio\Toolkit\Collection') === true) {
-            $replace = $replace->toArray();
-        }
-
-        // without a limit we might as well use the built-in function
-        if ($limit === -1) {
-            return str_replace($search, $replace, $string);
-        }
-
-        // if the limit is zero, the result will be no replacements at all
-        if ($limit === 0) {
-            return $string;
-        }
-
-        // multiple subjects are run separately through this method
-        if (is_array($string) === true) {
-            $result = [];
-            foreach ($string as $s) {
-                $result[] = static::replace($s, $search, $replace, $limit);
-            }
-            return $result;
-        }
-
-        // build an array of replacements
-        // we don't use an associative array because otherwise you couldn't
-        // replace the same string with different replacements
-        $replacements = static::replacements($search, $replace, $limit);
-
-        // run the string and the replacement array through the replacer
-        return static::replaceReplacements($string, $replacements);
+    /**
+     * Reverse the given string.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function reverse(string $value): string
+    {
+        return implode(array_reverse(mb_str_split($value)));
     }
 
     /**
@@ -1019,7 +998,7 @@ class Str
      * @param bool $caseInsensitive
      * @return bool
      */
-    public static function startsWith(string $string = null, string $needle, bool $caseInsensitive = false): bool
+    public static function startsWith(string $string, string $needle, bool $caseInsensitive = false): bool
     {
         if ($needle === '') {
             return true;
@@ -1045,14 +1024,14 @@ class Str
     }
 
     /**
-     * A UTF-8 safe version of substr()
+     * Returns the portion of the string specified by the start and length parameters.
      *
      * @param string $string
      * @param int $start
-     * @param int $length
+     * @param int|null $length
      * @return string
      */
-    public static function substr(string $string = null, int $start = 0, int $length = null): string
+    public static function substr(string $string, int $start = 0, int $length = null): string
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
@@ -1075,7 +1054,7 @@ class Str
      * @param string $end Placeholder end characters
      * @return string The filled-in string
      */
-    public static function template(string $string = null, array $data = [], string $fallback = null, string $start = '{{', string $end = '}}'): string
+    public static function template(string $string, array $data = [], string $fallback = null, string $start = '{{', string $end = '}}'): string
     {
         return preg_replace_callback('!' . $start . '(.*?)' . $end . '!', function ($match) use ($data, $fallback) {
             $query = trim($match[1]);
@@ -1099,6 +1078,17 @@ class Str
             // if we still don't have a result, keep the original placeholder
             return $result ?? $match[0];
         }, $string);
+    }
+
+    /**
+     * Convert the given string to title case.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function title(string $value): string
+    {
+        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
 
     /**
@@ -1187,7 +1177,7 @@ class Str
      * @param string $string
      * @return string
      */
-    public static function ucwords(string $string = null): string
+    public static function ucwords(string $string): string
     {
         return mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
     }
@@ -1230,14 +1220,25 @@ class Str
     }
 
     /**
-     * A UTF-8 safe version of strotoupper()
+     * Convert the given string to upper-case.
      *
      * @param string $string
      * @return string
      */
-    public static function upper(string $string = null): string
+    public static function upper(string $string): string
     {
         return mb_strtoupper($string, 'UTF-8');
+    }
+
+    /**
+     * Get the number of words a string contains.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function wordCount(string $string): int
+    {
+        return str_word_count($string);
     }
 
     /**
@@ -1262,7 +1263,7 @@ class Str
      * @param string $string
      * @return string
      */
-    public static function widont(string $string = null): string
+    public static function widont(string $string): string
     {
         return preg_replace_callback('|([^\s])\s+([^\s]+)\s*$|u', function ($matches) {
             if (static::contains($matches[2], '-')) {
@@ -1273,12 +1274,5 @@ class Str
         }, $string);
     }
 
-    public static function clean(string $string): string
-    {
-        // replace line breaks with spaces
-        $string = str_replace(PHP_EOL, ' ', trim($string));
 
-        // remove double spaces
-        return preg_replace('![ ]{2,}!', ' ', $string);
-    }
 }
