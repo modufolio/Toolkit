@@ -11,7 +11,6 @@ use Exception;
  * interface around arrays of arrays or objects,
  * with advanced filters, sorting, navigation and more.
  *
- * @package   Kirby Toolkit
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier GmbH
@@ -245,137 +244,23 @@ class Collection extends Iterator implements Countable
      * @param mixed ...$args
      * @return static
      */
-    public function filter($field, ...$args)
+    public function filter(Closure $closure)
     {
-        $operator = '==';
-        $test = $args[0] ?? null;
-        $split = $args[1] ?? false;
+        $collection = clone $this;
+        $collection->data = array_filter($collection->data, $closure);
 
-        // filter by custom filter function
-        if (is_string($field) === false && is_callable($field) === true) {
-            $collection = clone $this;
-            $collection->data = array_filter($this->data, $field);
-
-            return $collection;
-        }
-
-        // array of filters
-        if (is_array($field) === true) {
-            $collection = $this;
-
-            foreach ($field as $filter) {
-                $collection = $collection->filter(...$filter);
-            }
-
-            return $collection;
-        }
-
-        if (
-            is_string($test) === true &&
-            isset(static::$filters[$test]) === true
-        ) {
-            $operator = $test;
-            $test = $args[1] ?? null;
-            $split = $args[2] ?? false;
-        }
-
-        if (
-            is_object($test) === true &&
-            method_exists($test, '__toString') === true
-        ) {
-            $test = (string)$test;
-        }
-
-        // get the filter from the filters array
-        $filter = static::$filters[$operator] ?? null;
-
-        // return an unfiltered list if the filter does not exist
-        if ($filter === null) {
-            return $this;
-        }
-
-        if (is_array($filter) === true) {
-            $collection = clone $this;
-            $validator = $filter['validator'];
-            $strict = $filter['strict'] ?? true;
-            $method = $strict ? 'filterMatchesAll' : 'filterMatchesAny';
-
-            foreach ($collection->data as $key => $item) {
-                $value = $collection->getAttribute($item, $field, $split);
-
-                if ($split !== false) {
-                    if ($this->$method($validator, $value, $test) === false) {
-                        unset($collection->data[$key]);
-                    }
-                } elseif ($validator($value, $test) === false) {
-                    unset($collection->data[$key]);
-                }
-            }
-
-            return $collection;
-        }
-
-        return $filter(clone $this, $field, $test, $split);
+        return $collection;
     }
 
     /**
-     * Alias for `Kirby\Toolkit\Collection::filter`
+     * Alias for `Modufolio\Toolkit\Collection::filter`
      *
-     * @param string|Closure $field
-     * @param array ...$args
+     * @param Closure $closure
      * @return static
      */
-    public function filterBy(...$args)
+    public function filterBy(Closure $closure)
     {
-        return $this->filter(...$args);
-    }
-
-
-    protected function filterMatchesAny($validator, $values, $test): bool
-    {
-        foreach ($values as $value) {
-            if ($validator($value, $test) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $validator
-     * @param array $values
-     * @param mixed $test
-     * @return bool
-     */
-    protected function filterMatchesAll($validator, $values, $test): bool
-    {
-        foreach ($values as $value) {
-            if ($validator($value, $test) === false) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @param string $validator
-     * @param array $values
-     * @param mixed $test
-     * @return bool
-     */
-    protected function filterMatchesNone($validator, $values, $test): bool
-    {
-        $matches = 0;
-
-        foreach ($values as $value) {
-            if ($validator($value, $test) !== false) {
-                $matches++;
-            }
-        }
-
-        return $matches === 0;
+        return $this->filter($closure);
     }
 
     /**
@@ -500,25 +385,6 @@ class Collection extends Iterator implements Countable
         return $value;
     }
 
-    /**
-     * @param array $array
-     * @param string $attribute
-     * @return mixed
-     */
-    protected function getAttributeFromArray(array $array, string $attribute)
-    {
-        return $array[$attribute] ?? null;
-    }
-
-    /**
-     * @param object $object
-     * @param string $attribute
-     * @return mixed
-     */
-    protected function getAttributeFromObject($object, string $attribute)
-    {
-        return $object->{$attribute}();
-    }
 
     /**
      * Groups the elements by a given field or callback function
@@ -584,7 +450,7 @@ class Collection extends Iterator implements Countable
     }
 
     /**
-     * Alias for `Kirby\Toolkit\Collection::group`
+     * Alias for `Modufolio\Toolkit\Collection::group`
      *
      * @param string|Closure $field
      * @param bool $i
@@ -602,7 +468,6 @@ class Collection extends Iterator implements Countable
      * Returns a Collection with the intersection of the given elements
      * @param \Modufolio\Toolkit\Collection $other
      * @return static
-     * @since 3.3.0
      *
      */
     public function intersection($other)
@@ -614,7 +479,6 @@ class Collection extends Iterator implements Countable
      * Checks if there is an intersection between the given collection and this collection
      * @param \Modufolio\Toolkit\Collection $other
      * @return bool
-     * @since 3.3.0
      *
      */
     public function intersects($other): bool
@@ -1087,7 +951,7 @@ class Collection extends Iterator implements Countable
     }
 
     /**
-     * Alias for `Kirby\Toolkit\Collection::sort`
+     * Alias for `Modufolio\Toolkit\Collection::sort`
      *
      * @param string|callable $field Field name or value callback to sort by
      * @param string $direction asc or desc
@@ -1154,8 +1018,7 @@ class Collection extends Iterator implements Countable
      * @param mixed $condition
      * @param \Closure $callback
      * @param \Closure|null $fallback
-     * @return mixed
-     * @since 3.3.0
+     * @return mixed|Collection
      */
     public function when($condition, Closure $callback, Closure $fallback = null)
     {
@@ -1181,280 +1044,3 @@ class Collection extends Iterator implements Countable
         return $this->not(...$keys);
     }
 }
-
-/**
- * Equals Filter
- *
- * @param \Modufolio\Toolkit\Collection $collection
- * @param mixed $field
- * @param mixed $test
- * @param bool $split
- * @return mixed
- */
-Collection::$filters['=='] = function ($collection, $field, $test, $split = false) {
-    foreach ($collection->data as $key => $item) {
-        $value = $collection->getAttribute($item, $field, $split, $test);
-
-        if ($split !== false) {
-            if (in_array($test, $value) === false) {
-                unset($collection->data[$key]);
-            }
-        } elseif ($value !== $test) {
-            unset($collection->data[$key]);
-        }
-    }
-
-    return $collection;
-};
-
-/**
- * Not Equals Filter
- *
- * @param \Modufolio\Toolkit\Collection $collection
- * @param mixed $field
- * @param mixed $test
- * @param bool $split
- * @return mixed
- */
-Collection::$filters['!='] = function ($collection, $field, $test, $split = false) {
-    foreach ($collection->data as $key => $item) {
-        $value = $collection->getAttribute($item, $field, $split, $test);
-
-        if ($split !== false) {
-            if (in_array($test, $value) === true) {
-                unset($collection->data[$key]);
-            }
-        } elseif ((string)$value == $test) {
-            unset($collection->data[$key]);
-        }
-    }
-
-    return $collection;
-};
-
-/**
- * In Filter
- */
-Collection::$filters['in'] = [
-    'validator' => function ($value, $test) {
-        return in_array($value, $test) === true;
-    },
-    'strict' => false
-];
-
-/**
- * Not In Filter
- */
-Collection::$filters['not in'] = [
-    'validator' => function ($value, $test) {
-        return in_array($value, $test) === false;
-    },
-];
-
-/**
- * Contains Filter
- */
-Collection::$filters['*='] = [
-    'validator' => function ($value, $test) {
-        return strpos($value, $test) !== false;
-    },
-    'strict' => false
-];
-
-/**
- * Not Contains Filter
- */
-Collection::$filters['!*='] = [
-    'validator' => function ($value, $test) {
-        return strpos($value, $test) === false;
-    },
-];
-
-/**
- * More Filter
- */
-Collection::$filters['>'] = [
-    'validator' => function ($value, $test) {
-        return $value > $test;
-    }
-];
-
-/**
- * Min Filter
- */
-Collection::$filters['>='] = [
-    'validator' => function ($value, $test) {
-        return $value >= $test;
-    }
-];
-
-/**
- * Less Filter
- */
-Collection::$filters['<'] = [
-    'validator' => function ($value, $test) {
-        return $value < $test;
-    }
-];
-
-/**
- * Max Filter
- */
-Collection::$filters['<='] = [
-    'validator' => function ($value, $test) {
-        return $value <= $test;
-    }
-];
-
-/**
- * Ends With Filter
- */
-Collection::$filters['$='] = [
-    'validator' => 'V::endsWith',
-    'strict' => false,
-];
-
-/**
- * Not Ends With Filter
- */
-Collection::$filters['!$='] = [
-    'validator' => function ($value, $test) {
-        return V::endsWith($value, $test) === false;
-    }
-];
-
-/**
- * Starts With Filter
- */
-Collection::$filters['^='] = [
-    'validator' => 'V::startsWith',
-    'strict' => false
-];
-
-/**
- * Not Starts With Filter
- */
-Collection::$filters['!^='] = [
-    'validator' => function ($value, $test) {
-        return V::startsWith($value, $test) === false;
-    }
-];
-
-/**
- * Between Filter
- */
-Collection::$filters['between'] = Collection::$filters['..'] = [
-    'validator' => function ($value, $test) {
-        return V::between($value, ...$test) === true;
-    },
-    'strict' => false
-];
-
-/**
- * Match Filter
- */
-Collection::$filters['*'] = [
-    'validator' => 'V::match',
-    'strict' => false
-];
-
-/**
- * Not Match Filter
- */
-Collection::$filters['!*'] = [
-    'validator' => function ($value, $test) {
-        return V::match($value, $test) === false;
-    }
-];
-
-/**
- * Max Length Filter
- */
-Collection::$filters['maxlength'] = [
-    'validator' => 'V::maxLength',
-];
-
-/**
- * Min Length Filter
- */
-Collection::$filters['minlength'] = [
-    'validator' => 'V::minLength'
-];
-
-/**
- * Max Words Filter
- */
-Collection::$filters['maxwords'] = [
-    'validator' => 'V::maxWords',
-];
-
-/**
- * Min Words Filter
- */
-Collection::$filters['minwords'] = [
-    'validator' => 'V::minWords',
-];
-
-/**
- * Date Equals Filter
- */
-Collection::$filters['date =='] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '==', $test);
-    }
-];
-
-/**
- * Date Not Equals Filter
- */
-Collection::$filters['date !='] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '!=', $test);
-    }
-];
-
-/**
- * Date More Filter
- */
-Collection::$filters['date >'] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '>', $test);
-    }
-];
-
-/**
- * Date Min Filter
- */
-Collection::$filters['date >='] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '>=', $test);
-    }
-];
-
-/**
- * Date Less Filter
- */
-Collection::$filters['date <'] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '<', $test);
-    }
-];
-
-/**
- * Date Max Filter
- */
-Collection::$filters['date <='] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '<=', $test);
-    }
-];
-
-/**
- * Date Between Filter
- */
-Collection::$filters['date between'] = Collection::$filters['date ..'] = [
-    'validator' => function ($value, $test) {
-        return V::date($value, '>=', $test[0]) &&
-            V::date($value, '<=', $test[1]);
-    }
-];
