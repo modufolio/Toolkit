@@ -127,12 +127,12 @@ class Mime
         // fixing map
         $map = [
             'text/html' => [
-                'svg' => ['Kirby\Toolkit\Mime', 'fromSvg'],
+                'svg' => ['Modufolio\Toolkit\Mime', 'fromSvg'],
             ],
             'text/plain' => [
                 'css' => 'text/css',
                 'json' => 'application/json',
-                'svg' => ['Kirby\Toolkit\Mime', 'fromSvg'],
+                'svg' => ['Modufolio\Toolkit\Mime', 'fromSvg'],
             ],
             'text/x-asm' => [
                 'css' => 'text/css'
