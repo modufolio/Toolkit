@@ -45,7 +45,10 @@
   "autoload": {
     "psr-4": {
       "Modufolio\\": "src/"
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
 
   },
   "require-dev": {
