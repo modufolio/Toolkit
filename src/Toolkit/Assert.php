@@ -14,8 +14,7 @@ use Modufolio\Exception\InvalidArgumentException;
  * @copyright Modufolio
  * @license   https://opensource.org/licenses/MIT
  *
- * @method static array($value, string $message = null)
- * @method static bool ($value, string $message = null)
+ * @method static array($value, string $message = null)t * @method static bool ($value, string $message = null)
  * @method static bit ($value, string $message = null)
  * @method static blank ($value, string $message = null)
  * @method static callable ($value, string $message = null)
@@ -24,6 +23,7 @@ use Modufolio\Exception\InvalidArgumentException;
  * @method static float ($value, string $message = null)
  * @method static int ($value, string $message = null)
  * @method static iterable ($value, string $message = null)
+ * @method static json ($value, string $message = null)
  * @method static null ($value, string $message = null)
  * @method static numeric ($value, string $message = null)
  * @method static object ($value, string $message = null)
@@ -47,6 +47,7 @@ class Assert
         'float' => 'is_float',
         'int' => 'is_int',
         'iterable' => 'is_iterable',
+        'json' => 'is_json',
         'null' => 'is_null',
         'numeric' => 'is_numeric',
         'object' => 'is_object',
