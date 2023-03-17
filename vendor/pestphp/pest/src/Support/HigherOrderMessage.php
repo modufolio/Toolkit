@@ -8,6 +8,8 @@ use Closure;
 use ReflectionClass;
 use Throwable;
 
+use const PHP_MAJOR_VERSION;
+
 /**
  * @internal
  */
@@ -132,7 +134,7 @@ final class HigherOrderMessage
 
     private static function getUndefinedMethodMessage(object $target, string $methodName): string
     {
-        if (\PHP_MAJOR_VERSION >= 8) {
+        if (PHP_MAJOR_VERSION >= 8) {
             return sprintf(sprintf(self::UNDEFINED_METHOD, sprintf('%s::%s()', get_class($target), $methodName)));
         }
 

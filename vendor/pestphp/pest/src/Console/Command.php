@@ -18,6 +18,8 @@ use PHPUnit\TextUI\TestRunner;
 use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function is_dir;
+
 /**
  * @internal
  */
@@ -81,7 +83,7 @@ final class Command extends BaseCommand
         $testSuite  = $this->arguments['test'];
 
         if (is_string($testSuite)) {
-            if (\is_dir($testSuite)) {
+            if (is_dir($testSuite)) {
                 /** @var string[] $files */
                 $files = (new FileIteratorFacade())->getFilesAsArray(
                     $testSuite,

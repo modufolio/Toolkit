@@ -18,9 +18,9 @@
     ],
     "require": {
         "php": "^7.3 || ^8.0",
-        "nunomaduro/collision": "^5.10.0|^6.0",
-        "pestphp/pest-plugin": "^1.0.0",
-        "phpunit/phpunit": "^9.5.5"
+        "nunomaduro/collision": "^5.11.0|^6.3.0",
+        "pestphp/pest-plugin": "^1.1.0",
+        "phpunit/phpunit": "^9.6.4"
     },
     "autoload": {
         "psr-4": {
@@ -40,11 +40,11 @@
         ]
     },
     "require-dev": {
-        "illuminate/console": "^8.47.0",
-        "illuminate/support": "^8.47.0",
-        "laravel/dusk": "^6.15.0",
-        "pestphp/pest-dev-tools": "dev-master",
-        "pestphp/pest-plugin-parallel": "^1.0"
+        "illuminate/console": "^8.83.27",
+        "illuminate/support": "^8.83.27",
+        "laravel/dusk": "^6.25.2",
+        "pestphp/pest-dev-tools": "^1.0.0",
+        "pestphp/pest-plugin-parallel": "^1.2.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -59,8 +59,8 @@
         "bin/pest"
     ],
     "scripts": {
-        "lint": "php-cs-fixer fix -v",
-        "test:lint": "php-cs-fixer fix -v --dry-run",
+        "lint": "PHP_CS_FIXER_IGNORE_ENV=true php-cs-fixer fix -v",
+        "test:lint": "PHP_CS_FIXER_IGNORE_ENV=true php-cs-fixer fix -v --dry-run",
         "test:types": "phpstan analyse --ansi --memory-limit=-1",
         "test:unit": "php bin/pest --colors=always --exclude-group=integration",
         "test:parallel": "php bin/pest -p --colors=always --exclude-group=integration",
@@ -76,7 +76,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-1.x": "1.x-dev"
         },
         "pest": {
             "plugins": [

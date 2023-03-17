@@ -24,16 +24,16 @@
     "ext-libxml": "*",
     "ext-ctype": "*",
     "ext-mbstring": "*",
+    "ext-readline": "*",
+    "ext-iconv": "*",
+    "ext-intl": "*",
     "claviska/simpleimage": "3.6.3",
     "filp/whoops": "2.14.4",
     "laminas/laminas-escaper": "2.9.0",
     "michelf/php-smartypants": "1.8.1",
-    "mustangostang/spyc": "0.6.3",
     "phpmailer/phpmailer": "6.5.1",
-    "psr/log": "1.1.4",
-    "true/punycode": "2.1.1",
-    "ext-readline": "*",
-    "ext-iconv": "*"
+    "psr/log": "1.1.4"
+
   },
   "config": {
     "optimize-autoloader": true,

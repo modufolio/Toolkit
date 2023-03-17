@@ -8,8 +8,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Pest\Console\Thanks;
 use Pest\Exceptions\InvalidConsoleArgument;
-use function Pest\testDirectory;
 use Pest\TestSuite;
+
+use function Pest\testDirectory;
 
 /**
  * @internal

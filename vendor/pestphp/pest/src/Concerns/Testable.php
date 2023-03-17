@@ -11,6 +11,8 @@ use Pest\TestSuite;
 use PHPUnit\Framework\ExecutionOrderDependency;
 use Throwable;
 
+use function sprintf;
+
 /**
  * To avoid inheritance conflicts, all the fields related
  * to Pest only will be prefixed by double underscore.
@@ -257,7 +259,7 @@ trait Testable
      */
     public function toString(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s::%s',
             self::$__filename,
             $this->__description
