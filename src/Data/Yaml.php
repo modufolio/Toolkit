@@ -3,7 +3,8 @@
 namespace Modufolio\Data;
 
 use Modufolio\Exception\InvalidArgumentException;
-use Spyc;
+use Modufolio\Toolkit\Spyc;
+
 
 /**
  * Simple Wrapper around the Spyc YAML class
