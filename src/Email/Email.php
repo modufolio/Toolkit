@@ -43,7 +43,7 @@ class Email
     protected $attachments;
 
     /**
-     * @var \Modufolio\Email\Body|null
+     * @var Body|null
      */
     protected $body;
 
@@ -53,7 +53,7 @@ class Email
     protected $bcc;
 
     /**
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected $beforeSend;
 
@@ -134,7 +134,7 @@ class Email
     /**
      * Returns the email body
      *
-     * @return \Modufolio\Email\Body|null
+     * @return Body|null
      */
     public function body()
     {
@@ -155,7 +155,7 @@ class Email
      * Returns the beforeSend callback closure,
      * which has access to the PHPMailer instance
      *
-     * @return \Closure|null
+     * @return Closure|null
      */
     public function beforeSend(): ?Closure
     {
@@ -250,7 +250,7 @@ class Email
      * @param string|array|null $email
      * @param bool $multiple
      * @return array|mixed|string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function resolveEmail($email = null, bool $multiple = true)
     {
@@ -335,7 +335,7 @@ class Email
     /**
      * Sets the "beforeSend" callback
      *
-     * @param \Closure|null $beforeSend
+     * @param Closure|null $beforeSend
      * @return $this
      */
     protected function setBeforeSend(?Closure $beforeSend = null)

@@ -64,7 +64,7 @@ class Response
      * @param array $headers
      * @param string $charset
      */
-    public function __construct($body = '', ?string $type = null, ?int $code = null, ?array $headers = null, ?string $charset = null)
+    public function __construct(string $body = '', ?string $type = null, ?int $code = null, ?array $headers = null, ?string $charset = null)
     {
         // array construction
         if (is_array($body) === true) {

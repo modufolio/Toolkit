@@ -26,7 +26,7 @@ class Escape
     /**
      * The internal singleton escaper instance
      *
-     * @var \Laminas\Escaper\Escaper
+     * @var Escaper
      */
     protected static $escaper;
 
@@ -77,7 +77,7 @@ class Escape
     /**
      * Get the escaper instance (and create if needed)
      *
-     * @return \Laminas\Escaper\Escaper
+     * @return Escaper
      */
     protected static function escaper()
     {

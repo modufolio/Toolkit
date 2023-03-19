@@ -94,7 +94,7 @@ class A
      * @param array $array
      * @return array
      */
-    public static function divide($array)
+    public static function divide(array $array)
     {
         return [array_keys($array), array_values($array)];
     }
@@ -182,7 +182,7 @@ class A
      *                       returned if no element has been found
      * @return mixed
      */
-    public static function get($array, $key, $default = null)
+    public static function get(array $array, $key, $default = null)
     {
         if (is_array($array) === false) {
             return $array;
@@ -284,10 +284,10 @@ class A
      *
      * An array is a "list" if all array keys are sequential integers starting from 0 with no gaps in between.
      *
-     * @param  array  $array
+     * @param array $array
      * @return bool
      */
-    public static function isList($array): bool
+    public static function isList(array $array): bool
     {
         return ! self::isAssoc($array);
     }

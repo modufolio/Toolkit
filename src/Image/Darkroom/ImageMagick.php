@@ -121,7 +121,7 @@ class ImageMagick extends Darkroom
      * @param string $file
      * @param array $options
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function process(string $file, array $options = []): array
     {

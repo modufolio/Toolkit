@@ -3,6 +3,8 @@
 namespace Modufolio\Toolkit;
 
 use Exception;
+use Modufolio\Exception\InvalidArgumentException;
+use Modufolio\Exception\NotFoundException;
 use Modufolio\Sane\Sane;
 
 /**
@@ -332,8 +334,8 @@ class File
      *                              `false` for normal autodetection
      * @return void
      *
-     * @throws \Modufolio\Exception\InvalidArgumentException If the file didn't pass validation
-     * @throws \Modufolio\Exception\NotFoundException If the handler was not found
+     * @throws InvalidArgumentException If the file didn't pass validation
+     * @throws NotFoundException If the handler was not found
      * @throws \Modufolio\Exception\Exception On other errors
      */
     public function validateContents($typeLazy = false): void
@@ -348,7 +350,7 @@ class File
      * @return bool
      * @throws Exception
      */
-    public function write($content): bool
+    public function write(string $content): bool
     {
         if (F::write($this->root, $content) !== true) {
             throw new Exception('The file "' . $this->root . '" could not be written');

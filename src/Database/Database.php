@@ -3,10 +3,12 @@
 namespace Modufolio\Database;
 
 use Closure;
+use Exception;
 use Modufolio\Exception\InvalidArgumentException;
 use Modufolio\Toolkit\A;
 use Modufolio\Toolkit\Str;
 use PDO;
+use PDOStatement;
 use Throwable;
 
 /**
@@ -37,7 +39,7 @@ class Database
     /**
      * The established connection
      *
-     * @var \PDO|null
+     * @var PDO|null
      */
     protected $connection;
 
@@ -77,7 +79,7 @@ class Database
     /**
      * The last error
      *
-     * @var \Exception|null
+     * @var Exception|null
      */
     protected $lastError;
 
@@ -112,7 +114,7 @@ class Database
     /**
      * The PDO query statement
      *
-     * @var \PDOStatement|null
+     * @var PDOStatement|null
      */
     protected $statement;
 
@@ -178,8 +180,8 @@ class Database
      * Connects to a database
      *
      * @param array|null $params This can either be a config key or an array of parameters for the connection
-     * @return \PDO|null
-     * @throws \Modufolio\Exception\InvalidArgumentException
+     * @return PDO|null
+     * @throws InvalidArgumentException
      */
     public function connect(array $params = null)
     {
@@ -222,7 +224,7 @@ class Database
     /**
      * Returns the currently active connection
      *
-     * @return \PDO|null
+     * @return PDO|null
      */
     public function connection(): ?PDO
     {
@@ -233,7 +235,7 @@ class Database
      * Sets the exception mode
      *
      * @param bool $fail
-     * @return \Modufolio\Database\Database
+     * @return Database
      */
     public function fail(bool $fail = true)
     {
@@ -335,7 +337,7 @@ class Database
     /**
      * Returns the last db error
      *
-     * @return \Throwable
+     * @return Throwable
      */
     public function lastError()
     {
@@ -473,7 +475,7 @@ class Database
      * Returns the correct Sql generator instance
      * for the type of database
      *
-     * @return \Modufolio\Database\Sql
+     * @return Sql
      */
     public function sql()
     {
@@ -487,7 +489,7 @@ class Database
      * for that table
      *
      * @param string $table
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function table(string $table)
     {
@@ -603,7 +605,7 @@ class Database
      *
      * @param mixed $method
      * @param mixed $arguments
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function __call($method, $arguments = null)
     {

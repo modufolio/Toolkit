@@ -35,7 +35,7 @@ class Collection extends Iterator implements Countable
 
     /**
      * Pagination object
-     * @var \Modufolio\Toolkit\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
@@ -240,7 +240,7 @@ class Collection extends Iterator implements Countable
      * predefined filter methods, by a
      * custom filter function or an array of filters
      *
-     * @param string|array|\Closure $field
+     * @param string|array|Closure $field
      * @param mixed ...$args
      * @return static
      */
@@ -370,7 +370,7 @@ class Collection extends Iterator implements Countable
      * @param mixed $related
      * @return mixed
      */
-    public function getAttribute($item, string $attribute, $split = false, $related = null)
+    public function getAttribute($item, string $attribute, bool $split = false, $related = null)
     {
         $value = $this->{'getAttributeFrom' . gettype($item)}($item, $attribute);
 
@@ -391,10 +391,10 @@ class Collection extends Iterator implements Countable
      *
      * @param string|Closure $field
      * @param bool $i
-     * @return \Modufolio\Toolkit\Collection A new collection with an element for
+     * @return Collection A new collection with an element for
      *                                   each group and a subcollection in
      *                                   each group
-     * @throws \Exception if $field is not a string nor a callback function
+     * @throws Exception if $field is not a string nor a callback function
      */
     public function group($field, bool $i = true)
     {
@@ -454,10 +454,10 @@ class Collection extends Iterator implements Countable
      *
      * @param string|Closure $field
      * @param bool $i
-     * @return \Modufolio\Toolkit\Collection A new collection with an element for
+     * @return Collection A new collection with an element for
      *                                   each group and a sub collection in
      *                                   each group
-     * @throws \Exception
+     * @throws Exception
      */
     public function groupBy(...$args)
     {
@@ -466,22 +466,22 @@ class Collection extends Iterator implements Countable
 
     /**
      * Returns a Collection with the intersection of the given elements
-     * @param \Modufolio\Toolkit\Collection $other
+     * @param Collection $other
      * @return static
      *
      */
-    public function intersection($other)
+    public function intersection(Collection $other)
     {
         return $other->find($this->keys());
     }
 
     /**
      * Checks if there is an intersection between the given collection and this collection
-     * @param \Modufolio\Toolkit\Collection $other
+     * @param Collection $other
      * @return bool
      *
      */
-    public function intersects($other): bool
+    public function intersects(Collection $other): bool
     {
         foreach ($this->keys() as $key) {
             if ($other->has($key)) {
@@ -620,7 +620,7 @@ class Collection extends Iterator implements Countable
     /**
      * Get the previously added pagination object
      *
-     * @return \Modufolio\Toolkit\Pagination|null
+     * @return Pagination|null
      */
     public function pagination()
     {
@@ -966,7 +966,7 @@ class Collection extends Iterator implements Countable
     /**
      * Converts the object into an array
      *
-     * @param \Closure|null $map
+     * @param Closure|null $map
      * @return array
      */
     public function toArray(Closure $map = null): array
@@ -1016,8 +1016,8 @@ class Collection extends Iterator implements Countable
      * This Closure will execute if the first parameter evaluates as false
      *
      * @param mixed $condition
-     * @param \Closure $callback
-     * @param \Closure|null $fallback
+     * @param Closure $callback
+     * @param Closure|null $fallback
      * @return mixed|Collection
      */
     public function when($condition, Closure $callback, Closure $fallback = null)

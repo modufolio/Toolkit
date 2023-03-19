@@ -270,7 +270,7 @@ class Xml
      * Breaks a SimpleXMLElement down into a simpler tree
      * structure of arrays and strings
      *
-     * @param \SimpleXMLElement $element
+     * @param SimpleXMLElement $element
      * @param bool $collectName Whether the element name should be collected (for the root element)
      * @return array|string
      */

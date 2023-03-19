@@ -46,9 +46,9 @@ class GdLib extends Darkroom
      * Activates the autoOrient option in SimpleImage
      * unless this is deactivated
      *
-     * @param \claviska\SimpleImage $image
+     * @param SimpleImage $image
      * @param $options
-     * @return \claviska\SimpleImage
+     * @return SimpleImage
      */
     protected function autoOrient(SimpleImage $image, $options)
     {
@@ -62,9 +62,9 @@ class GdLib extends Darkroom
     /**
      * Wrapper around SimpleImage's resize and crop methods
      *
-     * @param \claviska\SimpleImage $image
+     * @param SimpleImage $image
      * @param array $options
-     * @return \claviska\SimpleImage
+     * @return SimpleImage
      */
     protected function resize(SimpleImage $image, array $options)
     {
@@ -78,9 +78,9 @@ class GdLib extends Darkroom
     /**
      * Applies the correct blur settings for SimpleImage
      *
-     * @param \claviska\SimpleImage $image
+     * @param SimpleImage $image
      * @param array $options
-     * @return \claviska\SimpleImage
+     * @return SimpleImage
      */
     protected function blur(SimpleImage $image, array $options)
     {
@@ -94,9 +94,9 @@ class GdLib extends Darkroom
     /**
      * Applies grayscale conversion if activated in the options.
      *
-     * @param \claviska\SimpleImage $image
+     * @param SimpleImage $image
      * @param array $options
-     * @return \claviska\SimpleImage
+     * @return SimpleImage
      */
     protected function grayscale(SimpleImage $image, array $options)
     {

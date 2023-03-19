@@ -70,7 +70,7 @@ abstract class Cache
      * this needs to be defined by the driver
      *
      * @param string $key
-     * @return \Modufolio\Cache\Value|null
+     * @return Value|null
      */
     abstract public function retrieve(string $key);
 

@@ -17,7 +17,7 @@ class MemCached extends Cache
 {
     /**
      * store for the memache connection
-     * @var \Memcached
+     * @var MemcachedExt
      */
     protected $connection;
 
@@ -66,7 +66,7 @@ class MemCached extends Cache
      * needs to return a Value object or null if not found
      *
      * @param string $key
-     * @return \Modufolio\Cache\Value|null
+     * @return Value|null
      */
     public function retrieve(string $key)
     {

@@ -2,6 +2,8 @@
 
 namespace Modufolio\Toolkit;
 
+use stdClass;
+
 /**
  * Spyc -- A Simple PHP YAML Class
  *
@@ -74,7 +76,7 @@ class Spyc
      * @param string $input
      * @return array
      */
-    public function load($input)
+    public function load(string $input)
     {
         return $this->_loadString($input);
     }
@@ -84,7 +86,7 @@ class Spyc
      * @param string $file
      * @return array
      */
-    public function loadFile($file)
+    public function loadFile(string $file)
     {
         return $this->_load($file);
     }
@@ -105,7 +107,7 @@ class Spyc
      * @param array set options
      * @return array
      */
-    public static function YAMLLoad($input, $options = [])
+    public static function YAMLLoad(string $input, $options = [])
     {
         $Spyc = new Spyc();
         foreach ($options as $key => $value) {
@@ -136,7 +138,7 @@ class Spyc
      * @param array set options
      * @return array
      */
-    public static function YAMLLoadString($input, $options = [])
+    public static function YAMLLoadString(string $input, $options = [])
     {
         $Spyc = new Spyc();
         foreach ($options as $key => $value) {
@@ -162,7 +164,7 @@ class Spyc
      * you can turn off wordwrap by passing in 0.
      *
      * @access public
-     * @param array|\stdClass $array PHP array
+     * @param array|stdClass $array PHP array
      * @param int $indent Pass in false to use the default, which is 2
      * @param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
      * @param bool $no_opening_dashes Do not start YAML file with "---\n"

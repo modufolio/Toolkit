@@ -38,7 +38,7 @@ class Iterator implements IteratorAggregate
     /**
      * Get an iterator for the items.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
     public function getIterator()
     {

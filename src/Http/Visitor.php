@@ -67,7 +67,7 @@ class Visitor
      * accepted language otherwise
      *
      * @param string|null $acceptedLanguage
-     * @return \Modufolio\Toolkit\Obj|\Modufolio\Http\Visitor|null
+     * @return Obj|Visitor|null
      */
     public function acceptedLanguage(string $acceptedLanguage = null)
     {
@@ -83,7 +83,7 @@ class Visitor
      * Returns an array of all accepted languages
      * including their quality and locale
      *
-     * @return \Modufolio\Toolkit\Collection
+     * @return Collection
      */
     public function acceptedLanguages()
     {
@@ -134,7 +134,7 @@ class Visitor
      * accepted mime type otherwise
      *
      * @param string|null $acceptedMimeType
-     * @return \Modufolio\Toolkit\Obj|\Modufolio\Http\Visitor
+     * @return Obj|Visitor
      */
     public function acceptedMimeType(string $acceptedMimeType = null)
     {
@@ -149,7 +149,7 @@ class Visitor
     /**
      * Returns a collection of all accepted mime types
      *
-     * @return \Modufolio\Toolkit\Collection
+     * @return Collection
      */
     public function acceptedMimeTypes()
     {

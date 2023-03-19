@@ -26,7 +26,7 @@ class Db
     /**
      * The singleton Database object
      *
-     * @var \Modufolio\Database\Database
+     * @var Database
      */
     public static $connection = null;
 
@@ -35,7 +35,7 @@ class Db
      *
      * @param array|null $params Pass `[]` to use the default params from the config,
      *                           don't pass any argument to get the current connection
-     * @return \Modufolio\Database\Database
+     * @return Database
      */
     public static function connect(?array $params = null)
     {
@@ -61,7 +61,7 @@ class Db
     /**
      * Returns the current database connection
      *
-     * @return \Modufolio\Database\Database|null
+     * @return Database|null
      */
     public static function connection()
     {
@@ -74,7 +74,7 @@ class Db
      * that table.
      *
      * @param string $table
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public static function table(string $table)
     {
@@ -117,7 +117,7 @@ class Db
      * @param string $method
      * @param mixed $arguments
      * @return mixed
-     * @throws \Modufolio\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function __callStatic(string $method, $arguments)
     {

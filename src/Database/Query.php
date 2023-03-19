@@ -2,6 +2,7 @@
 
 namespace Modufolio\Database;
 
+use Closure;
 use InvalidArgumentException;
 use Modufolio\Toolkit\A;
 use Modufolio\Toolkit\Pagination;
@@ -24,7 +25,7 @@ class Query
     /**
      * Parent Database object
      *
-     * @var \Modufolio\Database\Database
+     * @var Database
      */
     protected $database = null;
 
@@ -32,7 +33,7 @@ class Query
      * The object which should be fetched for each row
      * or function to call for each row
      *
-     * @var string|\Closure
+     * @var string|Closure
      */
     protected $fetch = 'Modufolio\Toolkit\Obj';
 
@@ -151,7 +152,7 @@ class Query
     /**
      * Constructor
      *
-     * @param \Modufolio\Database\Database $database Database object
+     * @param Database $database Database object
      * @param string $table Optional name of the table, which should be queried
      */
     public function __construct(Database $database, string $table)
@@ -186,7 +187,7 @@ class Query
      * the query instead of actually executing the query and returning results
      *
      * @param bool $debug
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function debug(bool $debug = true)
     {
@@ -198,7 +199,7 @@ class Query
      * Enables distinct select clauses.
      *
      * @param bool $distinct
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function distinct(bool $distinct = true)
     {
@@ -211,7 +212,7 @@ class Query
      * If enabled queries will no longer fail silently but throw an exception
      *
      * @param bool $fail
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function fail(bool $fail = true)
     {
@@ -224,8 +225,8 @@ class Query
      * set this to `'array'` to get a simple array instead of an object;
      * pass a function that receives the `$data` and the `$key` to generate arbitrary data structures
      *
-     * @param string|\Closure $fetch
-     * @return \Modufolio\Database\Query
+     * @param string|Closure $fetch
+     * @return Query
      */
     public function fetch($fetch)
     {
@@ -238,7 +239,7 @@ class Query
      * Set this to array to get a simple array instead of an iterator object
      *
      * @param string $iterator
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function iterator(string $iterator)
     {
@@ -250,7 +251,7 @@ class Query
      * Sets the name of the table, which should be queried
      *
      * @param string $table
-     * @return \Modufolio\Database\Query
+     * @return Query
      * @throws \Modufolio\Exception\InvalidArgumentException if the table does not exist
      */
     public function table(string $table)
@@ -267,7 +268,7 @@ class Query
      * Sets the name of the primary key column
      *
      * @param string $primaryKeyName
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function primaryKeyName(string $primaryKeyName)
     {
@@ -280,7 +281,7 @@ class Query
      * By default all columns will be selected
      *
      * @param mixed $select Pass either a string of columns or an array
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function select($select)
     {
@@ -313,7 +314,7 @@ class Query
      *
      * @param string $table Name of the table, which should be joined
      * @param string $on The on clause for this join
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function leftJoin(string $table, string $on)
     {
@@ -325,7 +326,7 @@ class Query
      *
      * @param string $table Name of the table, which should be joined
      * @param string $on The on clause for this join
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function rightJoin(string $table, string $on)
     {
@@ -337,9 +338,9 @@ class Query
      *
      * @param string $table Name of the table, which should be joined
      * @param string $on The on clause for this join
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
-    public function innerJoin($table, $on)
+    public function innerJoin(string $table, string $on)
     {
         return $this->join($table, $on, 'inner');
     }
@@ -348,7 +349,7 @@ class Query
      * Sets the values which should be used for the update or insert clause
      *
      * @param mixed $values Can either be a string or an array of values
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function values($values = [])
     {
@@ -363,7 +364,7 @@ class Query
      * Also can be used as getter for all attached bindings by not passing an argument.
      *
      * @param mixed $bindings Array of bindings or null to use this method as getter
-     * @return array|\Modufolio\Database\Query
+     * @return array|Query
      */
     public function bindings(array $bindings = null)
     {
@@ -387,7 +388,7 @@ class Query
      * ->where('username', 'like', 'myuser');                    (args: 3)
      *
      * @param mixed ...$args
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function where(...$args)
     {
@@ -400,7 +401,7 @@ class Query
      * Check out the where() method docs for additional info.
      *
      * @param mixed ...$args
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function orWhere(...$args)
     {
@@ -424,7 +425,7 @@ class Query
      * Check out the where() method docs for additional info.
      *
      * @param mixed ...$args
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function andWhere(...$args)
     {
@@ -447,7 +448,7 @@ class Query
      * Attaches a group by clause
      *
      * @param string|null $group
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function group(string $group = null)
     {
@@ -467,7 +468,7 @@ class Query
      * ->having('username', 'like', 'myuser');                       (args: 3)
      *
      * @param mixed ...$args
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function having(...$args)
     {
@@ -479,7 +480,7 @@ class Query
      * Attaches an order clause
      *
      * @param string|null $order
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function order(string $order = null)
     {
@@ -491,7 +492,7 @@ class Query
      * Sets the offset for select clauses
      *
      * @param int|null $offset
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function offset(int $offset = null)
     {
@@ -503,7 +504,7 @@ class Query
      * Sets the limit for select clauses
      *
      * @param int|null $limit
-     * @return \Modufolio\Database\Query
+     * @return Query
      */
     public function limit(int $limit = null)
     {

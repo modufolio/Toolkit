@@ -2,6 +2,7 @@
 
 namespace Modufolio\Toolkit;
 
+use Countable;
 use Exception;
 use Modufolio\Exception\InvalidArgumentException;
 use Modufolio\Http\Idn;
@@ -470,7 +471,7 @@ V::$validators = [
         } elseif (is_array($value) === true) {
             $count = count($value);
         } elseif (is_object($value) === true) {
-            if ($value instanceof \Countable) {
+            if ($value instanceof Countable) {
                 $count = count($value);
             } elseif (method_exists($value, 'count') === true) {
                 $count = $value->count();

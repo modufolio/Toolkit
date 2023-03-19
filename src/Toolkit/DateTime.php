@@ -3,12 +3,16 @@
 namespace Modufolio\Toolkit;
 
 
+use DateTimeInterface;
+use DateTimeZone;
+use Exception;
+use JsonSerializable;
 use Modufolio\Exception\InvalidArgumentException;
 
 /**
  * DateTime.
  */
-class DateTime extends \DateTime implements \JsonSerializable
+class DateTime extends \DateTime implements JsonSerializable
 {
 
     /** minute in seconds */
@@ -32,11 +36,11 @@ class DateTime extends \DateTime implements \JsonSerializable
 
     /**
      * Creates a DateTime object from a string, UNIX timestamp, or other DateTimeInterface object.
-     * @throws \Exception if the date and time are not valid.
+     * @throws Exception if the date and time are not valid.
      */
     public static function from($time): DateTime
     {
-        if ($time instanceof \DateTimeInterface) {
+        if ($time instanceof DateTimeInterface) {
             return new static($time->format('Y-m-d H:i:s.u'), $time->getTimezone());
 
         } elseif (is_numeric($time)) {
@@ -44,7 +48,7 @@ class DateTime extends \DateTime implements \JsonSerializable
                 $time += time();
             }
 
-            return (new static('@' . $time))->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+            return (new static('@' . $time))->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
         } else { // textual or null
             return new static((string) $time);
@@ -54,7 +58,7 @@ class DateTime extends \DateTime implements \JsonSerializable
 
     /**
      * Creates DateTime object.
-     * @throws \Exception if the date and time are not valid.
+     * @throws Exception if the date and time are not valid.
      */
     public static function fromParts(
         int $year,
@@ -83,18 +87,18 @@ class DateTime extends \DateTime implements \JsonSerializable
 
     /**
      * Returns new DateTime object formatted according to the specified format.
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createFromFormat(
         $format,
         $time,
-        ?\DateTimeZone $timezone = null
+        ?DateTimeZone $timezone = null
     ) {
         if ($timezone === null) {
-            $timezone = new \DateTimeZone(date_default_timezone_get());
+            $timezone = new DateTimeZone(date_default_timezone_get());
 
         } elseif (is_string($timezone)) {
-            $timezone = new \DateTimeZone($timezone);
+            $timezone = new DateTimeZone($timezone);
         }
 
         $date = parent::createFromFormat($format, $time, $timezone);

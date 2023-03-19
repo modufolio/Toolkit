@@ -244,7 +244,7 @@ class I18n
     /**
      * Returns (and creates) a decimal number formatter for a given locale
      *
-     * @return \NumberFormatter|null
+     * @return NumberFormatter|null
      */
     protected static function decimalNumberFormatter(string $locale): ?NumberFormatter
     {

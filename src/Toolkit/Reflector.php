@@ -6,6 +6,7 @@ use ReflectionClass;
 use ReflectionEnum;
 use ReflectionMethod;
 use ReflectionNamedType;
+use ReflectionParameter;
 use ReflectionUnionType;
 
 class Reflector
@@ -59,7 +60,7 @@ class Reflector
     /**
      * Get the class name of the given parameter's type, if possible.
      *
-     * @param  \ReflectionParameter  $parameter
+     * @param  ReflectionParameter  $parameter
      * @return string|null
      */
     public static function getParameterClassName($parameter)
@@ -76,7 +77,7 @@ class Reflector
     /**
      * Get the class names of the given parameter's type, including union types.
      *
-     * @param  \ReflectionParameter  $parameter
+     * @param  ReflectionParameter  $parameter
      * @return array
      */
     public static function getParameterClassNames($parameter)
@@ -103,8 +104,8 @@ class Reflector
     /**
      * Get the given type's class name.
      *
-     * @param  \ReflectionParameter  $parameter
-     * @param  \ReflectionNamedType  $type
+     * @param  ReflectionParameter  $parameter
+     * @param ReflectionNamedType $type
      * @return string
      */
     protected static function getTypeName($parameter, $type)
@@ -127,7 +128,7 @@ class Reflector
     /**
      * Determine if the parameter's type is a subclass of the given type.
      *
-     * @param  \ReflectionParameter  $parameter
+     * @param  ReflectionParameter  $parameter
      * @param  string  $className
      * @return bool
      */
@@ -143,7 +144,7 @@ class Reflector
     /**
      * Determine if the parameter's type is a Backed Enum with a string backing type.
      *
-     * @param  \ReflectionParameter  $parameter
+     * @param  ReflectionParameter  $parameter
      * @return bool
      */
     public static function isParameterBackedEnumWithStringBackingType($parameter)

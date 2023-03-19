@@ -40,7 +40,7 @@ class Darkroom
      * @param string $type
      * @param array $settings
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public static function factory(string $type, array $settings = [])
     {

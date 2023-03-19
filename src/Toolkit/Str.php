@@ -309,10 +309,10 @@ class Str
      *
      * @param string $string
      * @param string $targetEncoding
-     * @param string $sourceEncoding (optional)
+     * @param string|null $sourceEncoding (optional)
      * @return string
      */
-    public static function convert($string, $targetEncoding, $sourceEncoding = null): string
+    public static function convert(string $string, string $targetEncoding, string $sourceEncoding = null): string
     {
         // detect the source encoding if not passed as third argument
         if ($sourceEncoding === null) {
@@ -392,7 +392,7 @@ class Str
      * @param string $rep The element, which should be added if the string is too long. Ellipsis is the default.
      * @return string The shortened string
      */
-    public static function excerpt($string, $chars = 140, $strip = true, $rep = ' …'): string
+    public static function excerpt(string $string, int $chars = 140, bool $strip = true, string $rep = ' …'): string
     {
         if ($strip === true) {
             $string = strip_tags(str_replace('<', ' <', $string));
@@ -1125,7 +1125,7 @@ class Str
      * @param mixed $type
      * @return mixed
      */
-    public static function toType($string, $type)
+    public static function toType(string $string, $type)
     {
         if (is_string($type) === false) {
             $type = gettype($type);

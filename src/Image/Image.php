@@ -30,12 +30,12 @@ class Image extends File
     protected $url;
 
     /**
-     * @var \Modufolio\Image\Exif|null
+     * @var Exif|null
      */
     protected $exif;
 
     /**
-     * @var \Modufolio\Image\Dimensions|null
+     * @var Dimensions|null
      */
     protected $dimensions;
 
@@ -78,7 +78,7 @@ class Image extends File
     /**
      * Returns the dimensions of the file if possible
      *
-     * @return \Modufolio\Image\Dimensions
+     * @return Dimensions
      */
     public function dimensions()
     {
@@ -112,7 +112,7 @@ class Image extends File
     /**
      * Returns the exif object for this file (if image)
      *
-     * @return \Modufolio\Image\Exif
+     * @return Exif
      */
     public function exif()
     {
@@ -127,7 +127,7 @@ class Image extends File
      * Sends an appropriate header for the asset
      *
      * @param bool $send
-     * @return \Modufolio\Http\Response|string
+     * @return Response|string
      */
     public function header(bool $send = true)
     {

@@ -2,6 +2,8 @@
 
 namespace Modufolio\Http\Exceptions;
 
+use Exception;
+
 /**
  * NextRouteException
  *
@@ -11,6 +13,6 @@ namespace Modufolio\Http\Exceptions;
  * @copyright Bastian Allgeier GmbH
  * @license   https://opensource.org/licenses/MIT
  */
-class NextRouteException extends \Exception
+class NextRouteException extends Exception
 {
 }

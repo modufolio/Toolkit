@@ -7,6 +7,7 @@ use Modufolio\Cms\App;
 use Modufolio\Exception\InvalidArgumentException;
 use Modufolio\Toolkit\F;
 use Modufolio\Toolkit\Str;
+use stdClass;
 
 /**
  * A handy little class to handle
@@ -337,7 +338,7 @@ class Remote
      * Decode the response content
      *
      * @param bool $array decode as array or object
-     * @return array|\stdClass
+     * @return array|stdClass
      */
     public function json(bool $array = true)
     {

@@ -145,7 +145,7 @@ class Request
     /**
      * Returns the Auth object if authentication is set
      *
-     * @return \Modufolio\Http\Request\Auth\BasicAuth|\Modufolio\Http\Request\Auth\BearerAuth|null
+     * @return false|BasicAuth|BearerAuth|null
      */
     public function auth()
     {
@@ -156,7 +156,7 @@ class Request
         if ($auth = $this->options['auth'] ?? $this->header('authorization')) {
             $type = Str::before($auth, ' ');
             $token = Str::after($auth, ' ');
-            $class = 'Kirby\\Http\\Request\\Auth\\' . ucfirst($type) . 'Auth';
+            $class = 'Modufolio\\Http\\Request\\Auth\\' . ucfirst($type) . 'Auth';
 
             if (class_exists($class) === false) {
                 return $this->auth = false;
@@ -171,7 +171,7 @@ class Request
     /**
      * Returns the Body object
      *
-     * @return \Modufolio\Http\Request\Body
+     * @return Body
      */
     public function body()
     {
@@ -266,9 +266,9 @@ class Request
     /**
      * Returns the Files object
      *
-     * @return \Modufolio\Cms\Files
+     * @return Files
      */
-    public function files()
+    public function files(): Files
     {
         return $this->files = $this->files ?? new Files();
     }
@@ -376,7 +376,7 @@ class Request
     /**
      * Returns the Query object
      *
-     * @return \Modufolio\Http\Request\Query
+     * @return Query
      */
     public function query()
     {
@@ -400,7 +400,7 @@ class Request
      * the original object.
      *
      * @param array $props
-     * @return \Modufolio\Http\Uri
+     * @return Uri
      */
     public function url(array $props = null)
     {

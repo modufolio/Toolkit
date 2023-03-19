@@ -27,7 +27,7 @@ abstract class Sql
     /**
      * The parent database connection
      *
-     * @var \Modufolio\Database\Database
+     * @var Database
      */
     protected $database;
 
@@ -43,7 +43,7 @@ abstract class Sql
      * Constructor
      * @codeCoverageIgnore
      *
-     * @param \Modufolio\Database\Database $database
+     * @param Database $database
      */
     public function __construct($database)
     {
@@ -175,7 +175,7 @@ abstract class Sql
      *                      - `unique`: Whether the index (or if not set the column itself) has a UNIQUE constraint
      *                      - `default`: Default value of this column
      * @return array Array with `query` and `key` strings, a `unique` boolean and a `bindings` array
-     * @throws \Modufolio\Exception\InvalidArgumentException if no column type is given or the column type is not supported.
+     * @throws InvalidArgumentException if no column type is given or the column type is not supported.
      */
     public function createColumn(string $name, array $column): array
     {
@@ -363,7 +363,7 @@ abstract class Sql
      * @param array $input
      * @return void
      */
-    public function extend(&$query, array &$bindings, $input)
+    public function extend(&$query, array &$bindings, array $input)
     {
         if (empty($input['query']) === false) {
             $query[] = $input['query'];
@@ -456,7 +456,7 @@ abstract class Sql
      * @param string $type
      * @param string $on
      * @return array
-     * @throws \Modufolio\Exception\InvalidArgumentException if an invalid join type is given
+     * @throws InvalidArgumentException if an invalid join type is given
      */
     public function join(string $type, string $table, string $on): array
     {
@@ -661,7 +661,7 @@ abstract class Sql
      * @param array|string|null $columns
      * @return string
      */
-    public function selected($table, $columns = null): string
+    public function selected(string $table, $columns = null): string
     {
         // all columns
         if (empty($columns) === true) {
@@ -694,9 +694,9 @@ abstract class Sql
      * @param $table string Default table if the identifier is not qualified
      * @param $identifier string
      * @return array
-     * @throws \Modufolio\Exception\InvalidArgumentException if an invalid identifier is given
+     * @throws InvalidArgumentException if an invalid identifier is given
      */
-    public function splitIdentifier($table, $identifier): array
+    public function splitIdentifier(string $table, string $identifier): array
     {
         // split by dot, but only outside of quotes
         $parts = preg_split('/(?:`[^`]*`|"[^"]*")(*SKIP)(*F)|\./', $identifier);
@@ -729,7 +729,7 @@ abstract class Sql
      *
      * @param string $table
      * @return string
-     * @throws \Modufolio\Exception\InvalidArgumentException if an invalid table name is given
+     * @throws InvalidArgumentException if an invalid table name is given
      */
     public function tableName(string $table): string
     {
@@ -801,7 +801,7 @@ abstract class Sql
      * @param string $table
      * @param string $column
      * @return bool
-     * @throws \Modufolio\Exception\InvalidArgumentException If the column is invalid
+     * @throws InvalidArgumentException If the column is invalid
      */
     public function validateColumn(string $table, string $column): bool
     {

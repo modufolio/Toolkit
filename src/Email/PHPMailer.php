@@ -22,7 +22,7 @@ class PHPMailer extends Email
      *
      * @param bool $debug
      * @return bool
-     * @throws \Modufolio\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function send(bool $debug = false): bool
     {

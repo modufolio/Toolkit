@@ -83,7 +83,7 @@ class Exif
     /**
      * Constructor
      *
-     * @param \Modufolio\Image\Image $image
+     * @param Image $image
      */
     public function __construct(Image $image)
     {
@@ -105,7 +105,7 @@ class Exif
     /**
      * Returns the Camera object
      *
-     * @return \Modufolio\Image\Camera|null
+     * @return Camera|null
      */
     public function camera()
     {
@@ -119,7 +119,7 @@ class Exif
     /**
      * Returns the location object
      *
-     * @return \Modufolio\Image\Location|null
+     * @return Location|null
      */
     public function location()
     {

@@ -64,7 +64,7 @@ class Pagination
      * Creates a pagination instance for the given
      * collection with a flexible argument api
      *
-     * @param \Modufolio\Toolkit\Collection $collection
+     * @param Collection $collection
      * @param mixed ...$arguments
      * @return static
      */

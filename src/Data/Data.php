@@ -53,7 +53,7 @@ class Data
      * Handler getter
      *
      * @param string $type
-     * @return \Modufolio\Data\Handler
+     * @return Handler
      */
     public static function handler(string $type)
     {
