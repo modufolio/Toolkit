@@ -54,17 +54,16 @@ class A
     {
         return round((array_sum($array) / sizeof($array)), $decimals);
     }
-    
+
     /**
-     * Find duplicates
-     *
-     * @param array $array
-     *
-     * @return array
+     * Return array entries that contain the needle
+     * @param string $needle
+     * @param array $haystack
+     * @return array|null
      */
-    public static function duplicates(array $array): array
+    public static function contains(string $needle, array $haystack): ?array
     {
-        return array_unique(array_diff_assoc($array, array_unique($array)));
+        return preg_grep("/$needle/i", $haystack) ?? null;
     }
 
     /**
@@ -87,6 +86,19 @@ class A
         }
         return $results;
     }
+    
+    /**
+     * Find duplicates
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function duplicates(array $array): array
+    {
+        return array_unique(array_diff_assoc($array, array_unique($array)));
+    }
+
+
 
     /**
      * Divide an array into two arrays. One with keys and the other with values.
@@ -94,7 +106,7 @@ class A
      * @param array $array
      * @return array
      */
-    public static function divide(array $array)
+    public static function divide(array $array): array
     {
         return [array_keys($array), array_values($array)];
     }
@@ -113,6 +125,17 @@ class A
             }
         }
         return $results;
+    }
+
+    /**
+     * Return array entries that end with the needle
+     * @param string $needle
+     * @param array $haystack
+     * @return array|null
+     */
+    public static function endsWith(string $needle, array $haystack): ?array
+    {
+        return preg_grep("/$needle$/i", $haystack) ?? null;
     }
 
     /**
@@ -562,31 +585,6 @@ class A
     }
 
     /**
-     * Shuffles an array and keeps the keys
-     *
-     * @param array $array The source array
-     * @return array The shuffled result array
-     */
-    public static function shuffle(array $array): array
-    {
-        $keys = array_keys($array);
-        $new  = [];
-
-        shuffle($keys);
-
-        // resort the array
-        foreach ($keys as $key) {
-            $new[$key] = $array[$key];
-        }
-
-        return $new;
-    }
-
-
-
-
-
-    /**
      * Convert the array into a query string.
      */
     public static function query(array $array): string
@@ -594,7 +592,14 @@ class A
         return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
     }
 
-    public static function search($key, array $array)
+    /**
+     * Deep search for a value in an array
+     *
+     * @param $key
+     * @param array $array
+     * @return array|null
+     */
+    public static function search($key, array $array): ?array
     {
         if (isset($array[$key])) {
             return $array[$key];
@@ -644,6 +649,38 @@ class A
         }
 
         return $result;
+    }
+
+    /**
+     * Shuffles an array and keeps the keys
+     *
+     * @param array $array The source array
+     * @return array The shuffled result array
+     */
+    public static function shuffle(array $array): array
+    {
+        $keys = array_keys($array);
+        $new  = [];
+
+        shuffle($keys);
+
+        // resort the array
+        foreach ($keys as $key) {
+            $new[$key] = $array[$key];
+        }
+
+        return $new;
+    }
+
+    /**
+     * Return array entries that start with the needle
+     * @param string $needle
+     * @param array $haystack
+     * @return array|null
+     */
+    public static function startsWith(string $needle, array $haystack): ?array
+    {
+        return preg_grep("/^$needle/i", $haystack) ?? null;
     }
 
 
