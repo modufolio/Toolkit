@@ -3,7 +3,7 @@
 namespace Modufolio\Http;
 
 use Modufolio\Exception\InvalidArgumentException;
-use Modufolio\Toolkit\Properties;
+use Modufolio\Traits\Properties;
 use Throwable;
 
 /**

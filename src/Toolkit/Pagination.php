@@ -4,6 +4,7 @@ namespace Modufolio\Toolkit;
 
 use Modufolio\Exception\ErrorPageException;
 use Modufolio\Exception\Exception;
+use Modufolio\Traits\Properties;
 
 /**
  * Basic pagination handling
