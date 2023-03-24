@@ -2,7 +2,7 @@
 
 namespace Modufolio\Email;
 
-use Modufolio\Toolkit\Properties;
+use Modufolio\Traits\Properties;
 
 /**
  * Representation of a an Email body

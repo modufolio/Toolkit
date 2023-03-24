@@ -1,6 +1,6 @@
 <?php
 
-namespace Modufolio\Toolkit;
+namespace Modufolio\Traits;
 
 use Exception;
 use ReflectionMethod;

@@ -4,8 +4,8 @@ namespace Modufolio\Email;
 
 use Closure;
 use Exception;
-use Modufolio\Toolkit\Properties;
 use Modufolio\Toolkit\V;
+use Modufolio\Traits\Properties;
 
 /**
  * Wrapper for email libraries
