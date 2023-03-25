@@ -134,11 +134,19 @@ class Str
      *
      * @var array
      */
-    public static $defaults = [
+    public static array $defaults = [
         'slug' => [
             'separator' => '-',
             'allowed' => 'a-z0-9'
         ]
+    ];
+
+    public static array $patterns = [
+        'camelCase' => '/^[a-z]+(?:[A-Z][a-z]+)*$/',
+        'snakeCase' => '/^[a-z]+(?:_[a-z]+)*$/',
+
+
+
     ];
 
     /**
@@ -263,6 +271,22 @@ class Str
 
         return static::before(static::after($string, $start), $end);
     }
+
+    /**
+     * Convert a value to camel case.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function camel(string $value): string
+    {
+        if (isset(static::$camelCache[$value])) {
+            return static::$camelCache[$value];
+        }
+
+        return static::$camelCache[$value] = lcfirst(static::studly($value));
+    }
+
 
     public static function clean(string $string): string
     {
@@ -460,6 +484,19 @@ class Str
         return filter_var($string, FILTER_VALIDATE_URL) !== false;
     }
 
+
+
+    /**
+     * Checks if the given string is camelCase
+     *
+     * @param string $str
+     * @return bool
+     */
+    function isCamelCase(string $str): bool
+    {
+        return preg_match('/^[a-z]+(?:[A-Z][a-z]+)*$/', $str) === 1;
+    }
+
     /**
      * Convert a string to kebab case.
      *
@@ -507,39 +544,47 @@ class Str
     }
 
     /**
-     * Get the string matching the given pattern.
+     * Match string against a regular expression and return matches
      *
-     * @param string $pattern
-     * @param string $subject
-     * @return string
+     * @param string $string The string to match
+     * @param string $pattern The regular expression
+     * @param int $flags Optional flags for PHP `preg_match()`
+     * @param int $offset Positional offset in the string to start the search
+     * @return array|null The matches or null if no match was found
      */
-    public static function match(string $pattern, string $subject): string
+    public static function match(string $string, string $pattern, int $flags = 0, int $offset = 0): ?array
     {
-        preg_match($pattern, $subject, $matches);
-
-        if (! $matches) {
-            return '';
-        }
-
-        return $matches[1] ?? $matches[0];
+        $result = preg_match($pattern, $string, $matches, $flags, $offset);
+        return ($result === 1) ? $matches : null;
     }
 
     /**
-     * Get the string matching the given pattern.
+     * Check whether a string matches a regular expression
      *
-     * @param string $pattern
-     * @param string $subject
-     * @return Collection
+     * @param string $string The string to match
+     * @param string $pattern The regular expression
+     * @param int $flags Optional flags for PHP `preg_match()`
+     * @param int $offset Positional offset in the string to start the search
+     * @return bool True if the string matches the pattern
      */
-    public static function matchAll(string $pattern, string $subject): Collection
+    public static function matches(string $string, string $pattern, int $flags = 0, int $offset = 0): bool
     {
-        preg_match_all($pattern, $subject, $matches);
+        return static::match($string, $pattern, $flags, $offset) !== null;
+    }
 
-        if (empty($matches[0])) {
-            return new Collection();
-        }
-
-        return new Collection($matches[1] ?? $matches[0]);
+    /**
+     * Match string against a regular expression and return all matches
+     *
+     * @param string $string The string to match
+     * @param string $pattern The regular expression
+     * @param int $flags Optional flags for PHP `preg_match_all()`
+     * @param int $offset Positional offset in the string to start the search
+     * @return array|null The matches or null if no match was found
+     */
+    public static function matchAll(string $string, string $pattern, int $flags = 0, int $offset = 0): ?array
+    {
+        $result = preg_match_all($pattern, $string, $matches, $flags, $offset);
+        return ($result > 0) ? $matches : null;
     }
 
 
@@ -973,10 +1018,6 @@ class Str
      */
     public static function split(string $string, string $separator = ',', int $length = 1): array
     {
-        if (is_array($string) === true) {
-            return $string;
-        }
-
         $parts = explode($separator, $string);
         $out = [];
 
@@ -988,6 +1029,24 @@ class Str
         }
 
         return $out;
+    }
+
+    /**
+     * Split a string by a regular expression.
+     *
+     * @param string $string The string to split.
+     * @param string $pattern The regular expression pattern to split the string by.
+     * @param int $limit [optional] If specified, the maximum number of splits to perform.
+     * @param int $flags [optional] A bitwise combination of flags that change the behavior of the function.
+     * @return array An array containing the split string or null.
+     */
+    public static function pregSplit(string $string, string $pattern, int $limit = -1, int $flags = 1): ?array
+    {
+        $result = preg_split($pattern, $string, $limit, $flags);
+        if($result === false) {
+            return null;
+        }
+        return empty($result) ? null : $result;
     }
 
     /**
