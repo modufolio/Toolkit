@@ -18,38 +18,28 @@ class Str
 {
     /**
      * The cache of snake-cased words.
-     *
-     * @var array
      */
     protected static array $snakeCache = [];
 
     /**
      * The cache of camel-cased words.
-     *
-     * @var array
      */
     protected static array $camelCache = [];
 
     /**
      * The cache of studly-cased words.
-     *
-     * @var array
      */
     protected static array $studlyCache = [];
 
     /**
      * Language translation table
-     *
-     * @var array
      */
-    public static $language = [];
+    public static array $language = [];
 
     /**
      * Ascii translation table
-     *
-     * @var array
      */
-    public static $ascii = [
+    public static array $ascii = [
         '/°|₀/' => '0',
         '/¹|₁/' => '1',
         '/²|₂/' => '2',
@@ -131,8 +121,6 @@ class Str
 
     /**
      * Default settings for class methods
-     *
-     * @var array
      */
     public static array $defaults = [
         'slug' => [
@@ -144,9 +132,6 @@ class Str
     public static array $patterns = [
         'camelCase' => '/^[a-z]+(?:[A-Z][a-z]+)*$/',
         'snakeCase' => '/^[a-z]+(?:_[a-z]+)*$/',
-
-
-
     ];
 
     /**
@@ -442,16 +427,19 @@ class Str
      * @param string|int|float $value
      * @return string
      */
-    public static function float($value): string
+    public static function float(string|int|float|null $value): string
     {
+        // make sure $value is not null
+        $value ??= '';
+
         // Convert exponential to decimal, 1e-8 as 0.00000001
         if (strpos(strtolower($value), 'e') !== false) {
             $value = rtrim(sprintf('%.16f', (float)$value), '0');
         }
 
-        $value = str_replace(',', '.', $value);
+        $value   = str_replace(',', '.', $value);
         $decimal = strlen(substr(strrchr($value, '.'), 1));
-        return number_format((float)$value, $decimal, '.', false);
+        return number_format((float)$value, $decimal, '.', '');
     }
 
     /**
