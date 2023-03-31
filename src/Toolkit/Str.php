@@ -473,6 +473,17 @@ class Str
         }
     }
 
+    public static function getType($string): string
+    {
+        return match (true) {
+            is_numeric($string) && (int)$string == $string => 'int',
+            is_numeric($string) => 'float',
+            $string == 'true' || $string == 'false' => 'bool',
+            $string == 'null' => 'null',
+            default => 'string',
+        };
+    }
+
     /**
      * Checks if the given string is a URL
      *
@@ -1157,22 +1168,18 @@ class Str
      * @param mixed $size
      * @return int
      */
-    public static function toBytes($size): int
+    public static function toBytes(string $size): int
     {
         $size = trim($size);
-        $last = strtolower($size[strlen($size) - 1] ?? null);
+        $last = strtolower($size[strlen($size)-1] ?? '');
         $size = (int)$size;
 
-        switch ($last) {
-            case 'g':
-                $size *= 1024;
-            // no break
-            case 'm':
-                $size *= 1024;
-            // no break
-            case 'k':
-                $size *= 1024;
-        }
+        $size *= match ($last) {
+            'g'     => 1024 * 1024 * 1024,
+            'm'     => 1024 * 1024,
+            'k'     => 1024,
+            default => 1
+        };
 
         return $size;
     }
@@ -1184,27 +1191,23 @@ class Str
      * @param mixed $type
      * @return mixed
      */
-    public static function toType(string $string, $type)
+    public static function toType(string $string, $type = null)
     {
+        if($type === null) {
+            $type = self::getType($string);
+        }
+
         if (is_string($type) === false) {
             $type = gettype($type);
         }
 
-        switch ($type) {
-            case 'array':
-                return (array)$string;
-            case 'bool':
-            case 'boolean':
-                return filter_var($string, FILTER_VALIDATE_BOOLEAN);
-            case 'double':
-            case 'float':
-                return (float)$string;
-            case 'int':
-            case 'integer':
-                return (int)$string;
-        }
-
-        return (string)$string;
+        return match ($type) {
+            'array'           => (array)$string,
+            'bool', 'boolean' => filter_var($string, FILTER_VALIDATE_BOOLEAN),
+            'double', 'float' => (float)$string,
+            'int', 'integer'  => (int)$string,
+            default           => (string)$string
+        };
     }
 
     /**
