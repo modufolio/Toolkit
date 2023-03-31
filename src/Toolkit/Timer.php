@@ -14,10 +14,10 @@ class Timer
 {
     public static array $timers = [];
 
-    public static function get(string $name, $decimals = 2): float
+    public static function get(string $name, $decimals = 2): ?string
     {
        if(!isset(self::$timers[$name])) {
-           return 0;
+           return null;
        }
 
        return number_format(static::$timers[$name] * 1000, $decimals);
