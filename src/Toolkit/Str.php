@@ -589,12 +589,8 @@ class Str
 
     /**
      * Get a character pool with various possible combinations
-     *
-     * @param string|array $type
-     * @param bool $array
-     * @return string|array
      */
-    public static function pool($type, bool $array = true)
+    public static function pool(string|array $type, bool $array = true): string|array
     {
         $pool = [];
 
@@ -602,26 +598,15 @@ class Str
             foreach ($type as $t) {
                 $pool = array_merge($pool, static::pool($t));
             }
-
-            return $pool;
         } else {
-            switch ($type) {
-                case 'alphaLower':
-                    $pool = range('a', 'z');
-                    break;
-                case 'alphaUpper':
-                    $pool = range('A', 'Z');
-                    break;
-                case 'alpha':
-                    $pool = static::pool(['alphaLower', 'alphaUpper']);
-                    break;
-                case 'num':
-                    $pool = range(0, 9);
-                    break;
-                case 'alphaNum':
-                    $pool = static::pool(['alpha', 'num']);
-                    break;
-            }
+            $pool = match (strtolower($type)) {
+                'alphalower' => range('a', 'z'),
+                'alphaupper' => range('A', 'Z'),
+                'alpha'      => static::pool(['alphaLower', 'alphaUpper']),
+                'num'        => range(0, 9),
+                'alphanum'   => static::pool(['alpha', 'num']),
+                default      => $pool
+            };
         }
 
         return $array ? $pool : implode('', $pool);
