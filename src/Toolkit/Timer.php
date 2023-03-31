@@ -2,17 +2,41 @@
 
 namespace Modufolio\Toolkit;
 
+/**
+ * Timer class
+ *
+ * @package   Modufolio Toolkit
+ * @author    Maarten Thiebou
+ * @copyright Modufolio
+ * @license   https://opensource.org/licenses/MIT
+ */
 class Timer
 {
-    public static function app($decimals = 2): string
+    public static array $timers = [];
+
+    public static function get(string $name, $decimals = 2): float
     {
-        $time = microtime(true) - START_TIMER;
-        return number_format($time * 1000, $decimals);
+       if(!isset(self::$timers[$name])) {
+           return 0;
+       }
+
+       return number_format(static::$timers[$name] * 1000, $decimals);
     }
 
-    public static function getExecutionTime($decimals = 2): string
+    public static function start(string $name): void
     {
-        $time = microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
-        return number_format($time * 1000, $decimals);
+        static::$timers[$name] = microtime(true);
     }
+
+    public static function stop(string $name): void
+    {
+        static::$timers[$name] = microtime(true) - static::$timers[$name];
+    }
+
+    public static function reset(string $name): void
+    {
+        static::$timers[$name] = 0;
+    }
+
+
 }
